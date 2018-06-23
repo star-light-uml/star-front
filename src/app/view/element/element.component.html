@@ -1,4 +1,4 @@
-<div class="element" [ngStyle] = "content.divStype()">
-    <canvas #canvas [ngStyle]="content.cavStyle()" ></canvas>
+<div class="element" [ngStyle] = "content.style()">
+    <canvas #canvas width="{{content.property('width', '100px')}}" height="{{content.property('height', '100px')}}"></canvas>
     <app-element *ngFor="let c of content.children" [content]="c"></app-element>
 </div>

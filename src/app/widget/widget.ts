@@ -11,12 +11,23 @@ export class Widget {
 
     /**
      * 组件属性
-     * @type {Array}
      * @private
      */
-    private _properties: Property [] = [];
-
     private _name2Property = {};
+
+    /**
+     * 绘图上下文
+     */
+    private _context;
+
+
+    public get context() {
+        return this._context;
+    }
+
+    public set context(value) {
+        this._context = value;
+    }
 
     public get children() {
         return this._children;
@@ -25,13 +36,23 @@ export class Widget {
     public addProperty(property: Property) {
         if (!this._name2Property[property.name]) {
             this._name2Property[property.name] = property;
-            this._properties.push(property);
         }
     }
 
     public editProperty(name: string, value: any) {
         if (this._name2Property[name]) {
             this._name2Property[name].value = value;
+        } else {
+            const pro = new Property();
+            pro.name = name;
+            pro.value = value;
+            this.addProperty(pro);
+        }
+    }
+
+    public fixedProperty(name: string, fixed: boolean = false) {
+        if (this._name2Property[name]) {
+            this._name2Property[name].editable = !fixed;
         }
     }
 
@@ -43,17 +64,16 @@ export class Widget {
         }
     }
 
-    public cavStyle(): any {
+    public style(): any {
         return {
-            width: this.property("width", 100) + "px",
-            height: this.property("height", 100) + "px"
+            width: this.property("width", "100px") ,
+            height: this.property("height", "100px"),
+            top: this.property("top", 0),
+            left: this.property("left", 0)
         };
     }
 
-    public divStype(): any {
-        return {
-            top: this.property("top", 0) + "px",
-            left: this.property("left", 0) + "px"
-        };
+    public draw() {
+
     }
 }

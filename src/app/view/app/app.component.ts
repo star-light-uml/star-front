@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {Widget} from "../../widget/widget";
-import {Property} from "../../util/property";
+import {BackgroundView} from "../../widget/background.view";
 
 @Component({
     selector: 'app-root',
@@ -8,12 +7,8 @@ import {Property} from "../../util/property";
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    background = new Widget();
+    background = new BackgroundView();
 
     constructor() {
-        const pro = new Property();
-        pro.name = "width";
-        pro.value = 200;
-        this.background.addProperty(pro);
     }
 }
