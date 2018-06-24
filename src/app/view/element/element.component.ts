@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, DoCheck, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, DoCheck, ElementRef, Input, ViewChild} from '@angular/core';
 import {Widget} from "../../widget/widget";
 
 @Component({

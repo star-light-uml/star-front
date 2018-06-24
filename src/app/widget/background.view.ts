@@ -4,10 +4,10 @@ export class BackgroundView extends Widget {
 
     constructor() {
         super();
-        this.editProperty("width", "800px");
-        this.editProperty("height", "600px");
-        this.editProperty("cav-width", 901);
-        this.editProperty("cav-height", 901);
+        this.editProperty("width", "1801px");
+        this.editProperty("height", "1801px");
+        this.editProperty("cav-width", 1801);
+        this.editProperty("cav-height", 1801);
 
         this.getProperty("cav-width").canvasDrawProperty = true;
         this.getProperty("cav-height").canvasDrawProperty = true;
