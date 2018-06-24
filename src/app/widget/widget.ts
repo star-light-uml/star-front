@@ -14,6 +14,8 @@ export class Widget {
      * @private
      */
     private _name2Property = {};
+    private _properties: Property [] = [];
+    private _drawing = false;
 
     /**
      * 绘图上下文
@@ -33,9 +35,14 @@ export class Widget {
         return this._children;
     }
 
+    get properties(): Property[] {
+        return this._properties;
+    }
+
     public addProperty(property: Property) {
         if (!this._name2Property[property.name]) {
             this._name2Property[property.name] = property;
+            this.properties.push(property);
         }
     }
 
@@ -50,9 +57,16 @@ export class Widget {
         }
     }
 
-    public fixedProperty(name: string, fixed: boolean = false) {
-        if (this._name2Property[name]) {
-            this._name2Property[name].editable = !fixed;
+    public getProperty(name: string): Property {
+        return this._name2Property[name];
+    }
+
+    public getPropertyValue(name: string): any {
+        const pro = this._name2Property[name];
+        if (pro != null) {
+            return pro.value;
+        } else {
+            return null;
         }
     }
 
@@ -73,7 +87,37 @@ export class Widget {
         };
     }
 
-    public draw() {
+    public test() {
+        this.editProperty("cav-width", this.property("cav-width") - 1);
+    }
 
+    protected needDraw(): boolean {
+        for (const pro of this.properties) {
+            if (pro.needReDraw) {
+               return true;
+            }
+        }
+        return false;
+    }
+
+    protected drawDone(): void {
+        this.properties.forEach((pro) => {
+            pro.drawDone();
+        });
+    }
+
+
+    public draw() {
+        if (this.needDraw() && !this._drawing) {
+            this._drawing = true;
+            window.setTimeout(() => {
+                this.drawSelf();
+                this.drawDone();
+                this._drawing = false;
+            }, 10);
+        }
+    }
+
+    public drawSelf() {
     }
 }

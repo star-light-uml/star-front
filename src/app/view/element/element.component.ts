@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, ElementRef, Input, ViewChild} from '@angular/core';
 import {Widget} from "../../widget/widget";
 
 @Component({
@@ -6,15 +6,17 @@ import {Widget} from "../../widget/widget";
     templateUrl: './element.component.html',
     styleUrls: ['./element.component.css']
 })
-export class ElementComponent implements AfterContentInit {
+export class ElementComponent implements DoCheck {
 
     @ViewChild("canvas") canvas: ElementRef;
     @Input("content") content: Widget;
 
     constructor() { }
 
-    ngAfterContentInit() {
+    ngDoCheck(): void {
         this.content.context = this.canvas.nativeElement.getContext("2d");
-        this.content.draw();
+        if (this.content.context != null) {
+            this.content.draw();
+        }
     }
 }

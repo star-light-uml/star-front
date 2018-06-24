@@ -20,6 +20,19 @@ export class Property {
      */
     private _editable = true;
 
+    /**
+     * 是否需要刷新页面
+     * @type {boolean}
+     * @private
+     */
+    private _needReDraw = false;
+
+    /**
+     *
+     * @type {boolean}
+     * @private
+     */
+    private _canvasDrawProperty = false;
 
     get value(): any {
         return this._value;
@@ -27,8 +40,15 @@ export class Property {
 
     set value(value: any) {
         if (this.editable) {
+            if (this._value !== value) {
+                this._needReDraw = true;
+            }
             this._value = value;
         }
+    }
+
+    drawDone() {
+        this._needReDraw = false;
     }
 
     get name(): string {
@@ -45,5 +65,18 @@ export class Property {
 
     set editable(value: boolean) {
         this._editable = value;
+    }
+
+
+    get canvasDrawProperty(): boolean {
+        return this._canvasDrawProperty;
+    }
+
+    set canvasDrawProperty(value: boolean) {
+        this._canvasDrawProperty = value;
+    }
+
+    get needReDraw(): boolean {
+        return this._canvasDrawProperty && this._needReDraw;
     }
 }
