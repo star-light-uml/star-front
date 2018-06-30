@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {BackgroundView} from "../../widget/background.view";
+import {WidgetService} from "../../util/widget.service";
 
 @Component({
     selector: 'app-root',
@@ -9,6 +10,7 @@ import {BackgroundView} from "../../widget/background.view";
 export class AppComponent {
     background = new BackgroundView();
 
-    constructor() {
+    constructor(public widgetService: WidgetService) {
+        widgetService.widgetInit();
     }
 }

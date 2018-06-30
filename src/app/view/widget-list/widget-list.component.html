@@ -1,3 +1,5 @@
-<p>
-  widget-list works!
-</p>
+<ul nz-menu [nzMode]="'inline'" nzTheme='dark'>
+    <li nz-submenu *ngFor="let type of widgetService.getGroup().widgetType">
+        <span title>{{type.name}}</span>
+    </li>
+</ul>
