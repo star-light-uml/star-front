@@ -3,6 +3,8 @@
  */
 import {WidgetGroup} from "./widget.group";
 import {WidgetDescription} from "./widget.description";
+import {ProcessWidget} from "../widget/process.widget";
+import {TerminatorWidget} from "../widget/terminator.widget";
 
 export class WidgetService {
 
@@ -71,10 +73,27 @@ export class WidgetService {
         this.addGroup("流程图");
 
         this.currentGroup = "流程图";
-
-        this.getGroup().addType("Flowchart", "flowchart", 0);
-        this.getGroup().addType("Annotations", "annotations", 1);
-
+        const group = this.getGroup("流程图");
+        group.addType("Flowchart", "flowchart", 0);
+        group.addType("Annotations", "annotations", 1);
+        group.registryWidget({
+            name: "Process",
+            key: "process",
+            icon: "",
+            type: "flowchart",
+            sort: 0,
+            factory: () => new ProcessWidget(),
+            defaultWidget: new ProcessWidget()
+        });
+        group.registryWidget({
+            name: "Terminator",
+            key: "terminator",
+            icon: "",
+            type: "flowchart",
+            sort: 1,
+            factory: () => new TerminatorWidget(),
+            defaultWidget: new TerminatorWidget()
+        });
         this.getGroup().typeResort();
     }
 }

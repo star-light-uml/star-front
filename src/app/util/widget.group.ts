@@ -42,7 +42,7 @@ export class WidgetGroup {
      * @param {WidgetDescription} widget 组件信息
      */
     public registryWidget( widget: WidgetDescription) {
-        const type = this._widgetType[widget.type];
+        const type = this._name2type[widget.type];
         if (type != null) {
            type.registry(widget);
         }

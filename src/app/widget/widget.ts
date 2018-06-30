@@ -16,11 +16,19 @@ export class Widget {
     private _name2Property = {};
     private _properties: Property [] = [];
     private _drawing = false;
+    private _focusDraw = false;
 
     /**
      * 绘图上下文
      */
     private _context;
+
+    constructor() {
+        this.editProperty("height", "100px");
+        this.editProperty("cav-height", 100);
+        this.editProperty("width", "100px");
+        this.editProperty("cav-width", 100);
+    }
 
 
     public get context() {
@@ -87,11 +95,10 @@ export class Widget {
         };
     }
 
-    public test() {
-        this.editProperty("cav-width", this.property("cav-width") - 1);
-    }
-
     protected needDraw(): boolean {
+        if (this._focusDraw) {
+            return true;
+        }
         for (const pro of this.properties) {
             if (pro.needReDraw) {
                return true;
@@ -101,6 +108,7 @@ export class Widget {
     }
 
     protected drawDone(): void {
+        this._focusDraw = false;
         this.properties.forEach((pro) => {
             pro.drawDone();
         });
@@ -119,5 +127,10 @@ export class Widget {
     }
 
     public drawSelf() {
+    }
+
+
+    set focusDraw(value: boolean) {
+        this._focusDraw = value;
     }
 }

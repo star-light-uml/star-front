@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {WidgetService} from "../../util/widget.service";
+import {WidgetDescription} from "../../util/widget.description";
 
 @Component({
     selector: 'app-widget-list',
@@ -8,9 +9,26 @@ import {WidgetService} from "../../util/widget.service";
 })
 export class WidgetListComponent implements OnInit {
 
-    constructor(public widgetService: WidgetService) { }
+    showWidget: WidgetDescription = null;
+    showWidgetTop = 0;
+
+    constructor(public widgetService: WidgetService, private elementRef: ElementRef) { }
 
     ngOnInit() {
+    }
+
+    public enterItem(widget: WidgetDescription, event) {
+        this.showWidget = widget;
+        this.showWidget.defaultWidget.focusDraw = true;
+        const top = event.currentTarget.offsetTop;
+        let height = widget.defaultWidget.property("height", "100px");
+        if (height.endsWith("px")) {
+           height = height.substring(0, height.length - 2);
+        }
+        this.showWidgetTop = top - height / 2 + 10;
+        if (this.showWidgetTop < 0) {
+            this.showWidgetTop = 0;
+        }
     }
 
 }

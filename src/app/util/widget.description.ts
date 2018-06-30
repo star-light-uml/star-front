@@ -1,6 +1,8 @@
 /**
  * 组件描述信息
  */
+import {Widget} from "../widget/widget";
+
 export interface WidgetDescription {
     /**
      * 组件名称
@@ -19,10 +21,6 @@ export interface WidgetDescription {
      */
     icon: string;
     /**
-     * 组件分类
-     */
-    group: string;
-    /**
      * 组件类型
      */
     type: string;
@@ -30,4 +28,9 @@ export interface WidgetDescription {
      * 排序值，小的排前面
      */
     sort: number;
+
+    /**
+     * 默认组件
+     */
+    defaultWidget: Widget;
 }

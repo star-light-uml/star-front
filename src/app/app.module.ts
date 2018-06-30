@@ -9,17 +9,21 @@ import { WidgetListComponent } from './view/widget-list/widget-list.component';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {WidgetService} from "./util/widget.service";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { WidgetShowViewComponent } from './view/widget-list/widget-show-view/widget-show-view.component';
 registerLocaleData(zh);
 
 @NgModule({
     declarations: [
         AppComponent,
         ElementComponent,
-        WidgetListComponent
+        WidgetListComponent,
+        WidgetShowViewComponent
     ],
     imports: [
         BrowserModule,
-        NgZorroAntdModule
+        NgZorroAntdModule,
+        BrowserAnimationsModule
     ],
     providers: [
         { provide: NZ_I18N, useValue: zh_CN },
