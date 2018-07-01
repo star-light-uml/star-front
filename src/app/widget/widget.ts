@@ -1,5 +1,6 @@
 import {Property} from "../util/property";
 import {Utils} from "../util/utils";
+import {StatusService} from "../service/status.service";
 
 export class Widget {
     /**
@@ -10,6 +11,12 @@ export class Widget {
     private _children: Widget [] = [];
 
     private _parent: Widget;
+
+    private _select = false;
+
+    private _selectable = true;
+
+    private _statusService: StatusService;
 
     /**
      * 组件属性
@@ -46,10 +53,9 @@ export class Widget {
         this.editProperty("position", null);
         this.editProperty("cav-height", 100);
         this.editProperty("cav-width", 100);
-        this.editProperty("margin-left", "0");
-        this.editProperty("margin-right", "0");
-        this.editProperty("margin-bottom", "0");
-        this.editProperty("margin-top", "0");
+        this.editProperty("min-width", 40);
+        this.editProperty("min-height", 20);
+        this.setMargin("0");
         this.setPadding("0");
 
         this._stylePropertyList.forEach((s) => {
@@ -70,10 +76,11 @@ export class Widget {
         return this._children;
     }
 
-    public addChild(widget: Widget) {
+    public addChild(widget: Widget): boolean {
         if (this._container) {
             widget.parent = this;
             this.children.push(widget);
+            return true;
         } else {
             if (this._parent != null) {
                 const left = Utils.getValue(this.getPropertyValue("left"))
@@ -86,9 +93,10 @@ export class Widget {
                     + Utils.getValue(widget.getPropertyValue("top"));
                 widget.editProperty("top", top + "px");
                 widget.editProperty("left", left + "px");
-                this._parent.addChild(widget);
+                return this._parent.addChild(widget);
             }
         }
+        return false;
     }
 
     get properties(): Property[] {
@@ -208,5 +216,67 @@ export class Widget {
             this.editProperty("padding-left", top);
         }
         this.editProperty("padding-top", top);
+    }
+
+    setMargin(top: string, right: string = null, bottom: string = null, left: string = null) {
+        if (right != null) {
+            this.editProperty("margin-right", right);
+        } else {
+            this.editProperty("margin-right", top);
+        }
+        if (bottom != null) {
+            this.editProperty("margin-bottom", bottom);
+        } else {
+            this.editProperty("margin-bottom", top);
+        }
+        if (left != null) {
+            this.editProperty("margin-left", right);
+        } else {
+            this.editProperty("margin-left", top);
+        }
+        this.editProperty("margin-top", top);
+    }
+
+
+    get select(): boolean {
+        return this._selectable && this._select;
+    }
+
+    set select(value: boolean) {
+        if (!this._selectable) {
+            return;
+        }
+        this._select = value;
+    }
+
+
+    get selectable(): boolean {
+        return this._selectable;
+    }
+
+    set selectable(value: boolean) {
+        this._selectable = value;
+    }
+
+    mouseMove(event) {
+
+    }
+
+
+    get statusService() {
+        return this._statusService;
+    }
+
+    set statusService(value) {
+        this._statusService = value;
+    }
+
+    checkSize(w: number, h: number, type: string = ""): any {
+        const mw = this.getPropertyValue("min-width");
+        const mh = this.getPropertyValue("min-height");
+        return {
+            w: w < mw ? mw : w,
+            h: h < mh ? mh : h
+        };
     }
 }

@@ -1,10 +1,12 @@
 import {Widget} from "./widget";
+import {StatusService} from "../service/status.service";
 
 export class BackgroundView extends Widget {
 
     constructor() {
         super();
         this._container = true;
+        this.selectable = false;
         this.editProperty("cav-width", 1801);
         this.editProperty("cav-height", 1801);
         this.setPadding("40px");
@@ -34,5 +36,21 @@ export class BackgroundView extends Widget {
             this.context.fillRect(gridWidth * i, 0, 1, height);
         }
         this.context.closePath();
+    }
+
+
+    mouseMove(event) {
+        this.statusService.mousePos = {
+            x: event.screenX,
+            y: event.screenY
+        };
+        if (this.statusService.status === StatusService.RESIZE) {
+            this.editProperty("container-cursor", this.statusService.resizeCursor);
+            if (event.buttons !== 1) {
+                this.statusService.status = StatusService.NORMAL;
+            }
+        } else {
+            this.editProperty("container-cursor", null);
+        }
     }
 }

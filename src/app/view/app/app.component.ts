@@ -12,5 +12,6 @@ export class AppComponent {
 
     constructor(public widgetService: WidgetService, public projectService: ProjectService) {
         widgetService.widgetInit();
+        projectService.initProject();
     }
 }

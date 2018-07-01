@@ -1,6 +1,11 @@
 <div class="element" [ngStyle] = "content.style()">
-    <canvas #canvas width="{{content.property('cav-width', '100')}}" height="{{content.property('cav-height', '100')}}">Your browser can't support canvas tag</canvas>
-    <div class="element-container" [ngStyle]="containerStyle()" (click)="leftClick($event)">
+    <canvas #canvas width="{{content.getPropertyValue('cav-width')}}" height="{{content.getPropertyValue('cav-height')}}">Your browser can't support canvas tag</canvas>
+    <app-resize *ngIf="content.select" class="widget-resize" [ngStyle]="resizeStyle()" [height]="content.getPropertyValue('cav-height')"
+        [width]="content.getPropertyValue('cav-width')" [widget]="content"
+    ></app-resize>
+    <div class="element-container" [ngStyle]="containerStyle()" (click)="leftClick($event)"
+         (mousemove)="content.mouseMove($event)"
+    >
         <app-element *ngFor="let c of content.children" [content]="c"></app-element>
     </div>
 </div>

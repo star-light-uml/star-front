@@ -8,10 +8,13 @@ import {DelayWidget} from "../widget/delay.widget";
 import {PredefinedProcessWidget} from "../widget/predefined.process.widget";
 import {AlternateProcessWidget} from "../widget/alternate.process.widget";
 import {DataWidget} from "../widget/data.widget";
+import {BackgroundView} from "../widget/background.view";
 
 export class DefaultWidgetFactory extends WidgetBaseFactory {
     create(key: string): Widget {
         switch (key) {
+            case "background":
+                return new BackgroundView();
             case "process":
                 return new ProcessWidget();
             case "terminator":

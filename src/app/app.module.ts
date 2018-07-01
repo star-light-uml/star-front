@@ -18,6 +18,7 @@ import {MessageService} from "./service/message.service";
 import {WidgetFactoryService} from "./service/widget.factory.service";
 import {ProjectService} from "./service/project.service";
 import {StatusService} from "./service/status.service";
+import { ResizeComponent } from './view/element/resieze/resize.component';
 
 registerLocaleData(zh);
 
@@ -27,7 +28,8 @@ registerLocaleData(zh);
         ElementComponent,
         WidgetListComponent,
         WidgetShowViewComponent,
-        MessageComponent
+        MessageComponent,
+        ResizeComponent
     ],
     imports: [
         BrowserModule,
