@@ -13,10 +13,6 @@ export interface WidgetDescription {
      */
     key: string;
     /**
-     * 组件创建方法
-     */
-    factory: Function;
-    /**
      * 组件图标
      */
     icon: string;

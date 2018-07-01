@@ -2,6 +2,8 @@ import {WidgetGroup} from "../util/widget.group";
 import {WidgetDescription} from "../util/widget.description";
 import {HttpService} from "./http.service";
 import {Injectable} from "@angular/core";
+import {WidgetFactoryService} from "./widget.factory.service";
+import {DefaultWidgetFactory} from "../widget.factory/default.widget.factory";
 
 /**
  * 组件管理服务
@@ -9,7 +11,7 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class WidgetService {
 
-    constructor(public httpService: HttpService) {}
+    constructor(public httpService: HttpService, public widgetFactoryService: WidgetFactoryService) {}
 
     /**
      * 通过名称查找组
@@ -73,6 +75,7 @@ export class WidgetService {
      * 初始化组件分组信息
      */
     public widgetInit() {
+        this.widgetFactoryService.addFactory(new DefaultWidgetFactory());
         this.httpService.httpGet("/assets/widgets.json", (result) => {
             result.forEach((g) => {
                 this.addGroup(g.group);
@@ -88,8 +91,7 @@ export class WidgetService {
                             key: w.key,
                             icon: w.icon,
                             sort: w.value,
-                            factory: null,
-                            defaultWidget: null,
+                            defaultWidget: this.widgetFactoryService.createWidget(w.key),
                             type: t.type
                         });
                     });
