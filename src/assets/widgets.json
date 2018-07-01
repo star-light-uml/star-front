@@ -1,0 +1,34 @@
+[
+    {
+        "group": "流程图",
+        "current": true,
+        "types": [
+            {
+                "type": "flowchart",
+                "name": "Flowchart",
+                "value": 0,
+                "widgets": [
+                    {
+                        "name": "Process",
+                        "key": "process",
+                        "value": 0,
+                        "icon": ""
+                    },
+                    {
+                        "name": "Terminator",
+                        "key": "terminator",
+                        "value": 1,
+                        "icon": ""
+                    }
+                ]
+            },
+            {
+                "type": "annotations",
+                "name": "Annotations",
+                "value": 1,
+                "widgets": [
+                ]
+            }
+        ]
+    }
+]

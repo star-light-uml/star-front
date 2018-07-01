@@ -18,6 +18,9 @@ export class WidgetListComponent implements OnInit {
     }
 
     public enterItem(widget: WidgetDescription, event) {
+        if (widget.defaultWidget == null) {
+            return;
+        }
         this.showWidget = widget;
         this.showWidget.defaultWidget.focusDraw = true;
         const top = event.currentTarget.offsetTop;

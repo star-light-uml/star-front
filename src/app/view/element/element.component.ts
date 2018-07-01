@@ -14,9 +14,11 @@ export class ElementComponent implements DoCheck {
     constructor() { }
 
     ngDoCheck(): void {
-        this.content.context = this.canvas.nativeElement.getContext("2d");
-        if (this.content.context != null) {
-            this.content.draw();
+        if (this.content != null) {
+            this.content.context = this.canvas.nativeElement.getContext("2d");
+            if (this.content.context != null) {
+                this.content.draw();
+            }
         }
     }
 }

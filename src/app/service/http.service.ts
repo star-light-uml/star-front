@@ -14,14 +14,10 @@ export class HttpService {
         this.httpClient.post(reqUrl, reqBody, this.httpOptions)
             .subscribe(
                 val => {
-                    if (val['success']) {
-                        comp.postOk(val);
-                    } else {
-                        comp.postErr(val);
-                    }
+                    comp(val);
                 },
                 error => {
-                    comp.postErr(error);
+                    this.messageService.showMessage("网络请求失败！", "error");
                 }
             );
 
@@ -31,12 +27,7 @@ export class HttpService {
         this.httpClient.get(reqUrl, this.httpOptions)
             .subscribe(
                 val => {
-                    if (val['success']) {
-                        comp.getOk(val);
-                    } else {
-                        comp.getErr(val);
-                    }
-
+                    comp(val);
                 },
                 error => {
                     this.messageService.showMessage("网络请求失败！", "error");

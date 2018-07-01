@@ -73,33 +73,28 @@ export class WidgetService {
      * 初始化组件分组信息
      */
     public widgetInit() {
-        this.httpService.httpGet("/widgets.json", (result) => {
-
+        this.httpService.httpGet("/assets/widgets.json", (result) => {
+            result.forEach((g) => {
+                this.addGroup(g.group);
+                if (g.current) {
+                    this.currentGroup = g.group;
+                }
+                const group = this.getGroup(g.group);
+                g.types.forEach((t) => {
+                    group.addType(t.name, t.type, t.value);
+                    t.widgets.forEach((w) => {
+                        group.registryWidget({
+                            name: w.name,
+                            key: w.key,
+                            icon: w.icon,
+                            sort: w.value,
+                            factory: null,
+                            defaultWidget: null,
+                            type: t.type
+                        });
+                    });
+                });
+            });
         });
-        // this.addGroup("流程图");
-        //
-        // this.currentGroup = "流程图";
-        // const group = this.getGroup("流程图");
-        // group.addType("Flowchart", "flowchart", 0);
-        // group.addType("Annotations", "annotations", 1);
-        // group.registryWidget({
-        //     name: "Process",
-        //     key: "process",
-        //     icon: "",
-        //     type: "flowchart",
-        //     sort: 0,
-        //     factory: () => new ProcessWidget(),
-        //     defaultWidget: new ProcessWidget()
-        // });
-        // group.registryWidget({
-        //     name: "Terminator",
-        //     key: "terminator",
-        //     icon: "",
-        //     type: "flowchart",
-        //     sort: 1,
-        //     factory: () => new TerminatorWidget(),
-        //     defaultWidget: new TerminatorWidget()
-        // });
-        // this.getGroup().typeResort();
     }
 }
