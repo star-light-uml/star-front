@@ -1,4 +1,4 @@
-<ul nz-menu [nzMode]="'inline'" nzTheme='dark' [nzSelectable] = "false" [nzInlineIndent]="16">
+<ul nz-menu [nzMode]="'inline'" nzTheme='dark' [nzSelectable] = "false" [nzInlineIndent]="16" *ngIf="widgetService.getGroup() != null">
     <li nz-submenu *ngFor="let type of widgetService.getGroup().widgetType">
         <span title>{{type.name}}</span>
         <ul>

@@ -1,0 +1,5 @@
+<div class="message-frame" *ngIf="messageService.status == 'open'">
+    <div class="message-view" [ngStyle]="{'margin-top': top + 'px'}">
+        <nz-alert nzType="success" nzMessage="{{messageService.message}}" [nzType]="messageService.type" nzShowIcon></nz-alert>
+    </div>
+</div>

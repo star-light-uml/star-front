@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {WidgetService} from "../../util/widget.service";
+import {WidgetService} from "../../service/widget.service";
 import {WidgetDescription} from "../../util/widget.description";
 
 @Component({

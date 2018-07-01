@@ -8,9 +8,14 @@ import { ElementComponent } from './view/element/element.component';
 import { WidgetListComponent } from './view/widget-list/widget-list.component';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import {WidgetService} from "./util/widget.service";
+import {WidgetService} from "./service/widget.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { WidgetShowViewComponent } from './view/widget-list/widget-show-view/widget-show-view.component';
+import {HttpService} from "./service/http.service";
+import {HttpClientModule} from "@angular/common/http";
+import {MessageComponent} from './view/message/message.component';
+import {MessageService} from "./service/message.service";
+
 registerLocaleData(zh);
 
 @NgModule({
@@ -18,16 +23,20 @@ registerLocaleData(zh);
         AppComponent,
         ElementComponent,
         WidgetListComponent,
-        WidgetShowViewComponent
+        WidgetShowViewComponent,
+        MessageComponent
     ],
     imports: [
         BrowserModule,
         NgZorroAntdModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        HttpClientModule
     ],
     providers: [
         { provide: NZ_I18N, useValue: zh_CN },
-        WidgetService
+        HttpService,
+        WidgetService,
+        MessageService
         ],
     bootstrap: [AppComponent]
 })
