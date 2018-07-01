@@ -19,6 +19,36 @@
                         "key": "terminator",
                         "value": 1,
                         "icon": ""
+                    },
+                    {
+                        "name": "Decision",
+                        "key": "decision",
+                        "value": 2,
+                        "icon": ""
+                    },
+                    {
+                        "name": "Delay",
+                        "key": "delay",
+                        "value": 3,
+                        "icon": ""
+                    },
+                    {
+                        "name": "Predefined Process",
+                        "key": "predefined-process",
+                        "value": 4,
+                        "icon": ""
+                    },
+                    {
+                        "name": "Alternate Process",
+                        "key": "alternate-process",
+                        "value": 5,
+                        "icon": ""
+                    },
+                    {
+                        "name": "Data",
+                        "key": "data",
+                        "value": 6,
+                        "icon": ""
                     }
                 ]
             },

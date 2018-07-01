@@ -1,6 +1,7 @@
+
 import {Widget} from "./widget";
 
-export class ProcessWidget extends Widget {
+export class PredefinedProcessWidget extends Widget {
     constructor() {
         super();
         this.editProperty("height", "40px");
@@ -17,6 +18,10 @@ export class ProcessWidget extends Widget {
         this.context.lineTo(width, height);
         this.context.lineTo(2, height);
         this.context.lineTo(2, 2);
+        this.context.moveTo(7, 2);
+        this.context.lineTo(7, height);
+        this.context.moveTo(width - 5, 2);
+        this.context.lineTo(width - 5, height);
         this.context.lineWidth = 2;
         this.context.stroke();
         this.context.closePath();

@@ -1,6 +1,6 @@
 import {Widget} from "./widget";
 
-export class ProcessWidget extends Widget {
+export class DataWidget extends Widget {
     constructor() {
         super();
         this.editProperty("height", "40px");
@@ -12,11 +12,11 @@ export class ProcessWidget extends Widget {
         const height = this.getPropertyValue("cav-height") - 4;
         this.context.beginPath();
         this.context.strokeStyle = "#404040";
-        this.context.moveTo(1, 2);
+        this.context.moveTo(16, 2);
         this.context.lineTo(width, 2);
-        this.context.lineTo(width, height);
+        this.context.lineTo(width - 15, height);
         this.context.lineTo(2, height);
-        this.context.lineTo(2, 2);
+        this.context.lineTo(16, 2);
         this.context.lineWidth = 2;
         this.context.stroke();
         this.context.closePath();

@@ -1,10 +1,10 @@
 import {Widget} from "./widget";
 
-export class ProcessWidget extends Widget {
+export class DecisionWidget extends Widget {
     constructor() {
         super();
-        this.editProperty("height", "40px");
-        this.editProperty("cav-height", 40);
+        this.editProperty("height", "50px");
+        this.editProperty("cav-height", 50);
     }
 
     public drawSelf() {
@@ -12,11 +12,11 @@ export class ProcessWidget extends Widget {
         const height = this.getPropertyValue("cav-height") - 4;
         this.context.beginPath();
         this.context.strokeStyle = "#404040";
-        this.context.moveTo(1, 2);
-        this.context.lineTo(width, 2);
-        this.context.lineTo(width, height);
-        this.context.lineTo(2, height);
-        this.context.lineTo(2, 2);
+        this.context.moveTo(width / 2 + 2, 2);
+        this.context.lineTo(width, height / 2 + 2);
+        this.context.lineTo(width / 2 + 2, height);
+        this.context.lineTo(2, height / 2 + 2);
+        this.context.lineTo(width / 2 + 2, 2);
         this.context.lineWidth = 2;
         this.context.stroke();
         this.context.closePath();
