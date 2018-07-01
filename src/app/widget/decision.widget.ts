@@ -17,6 +17,8 @@ export class DecisionWidget extends Widget {
         this.context.lineTo(width / 2 + 2, height);
         this.context.lineTo(2, height / 2 + 2);
         this.context.lineTo(width / 2 + 2, 2);
+        this.context.fillStyle = "#fff";
+        this.context.fill();
         this.context.lineWidth = 2;
         this.context.stroke();
         this.context.closePath();

@@ -16,6 +16,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {MessageComponent} from './view/message/message.component';
 import {MessageService} from "./service/message.service";
 import {WidgetFactoryService} from "./service/widget.factory.service";
+import {ProjectService} from "./service/project.service";
+import {StatusService} from "./service/status.service";
 
 registerLocaleData(zh);
 
@@ -38,7 +40,9 @@ registerLocaleData(zh);
         HttpService,
         WidgetService,
         MessageService,
-        WidgetFactoryService
+        WidgetFactoryService,
+        ProjectService,
+        StatusService
         ],
     bootstrap: [AppComponent]
 })

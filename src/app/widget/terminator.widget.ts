@@ -19,6 +19,8 @@ export class TerminatorWidget extends Widget {
         this.context.lineTo(width - height / 2 - 2, 2);
         this.context.moveTo(height / 2 + 2, height + 2);
         this.context.lineTo(width - height / 2 - 2, height + 2);
+        this.context.fillStyle = "#fff";
+        this.context.fill();
         this.context.lineWidth = 2;
         this.context.stroke();
         this.context.closePath();

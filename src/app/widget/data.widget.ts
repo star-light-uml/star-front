@@ -17,6 +17,8 @@ export class DataWidget extends Widget {
         this.context.lineTo(width - 15, height);
         this.context.lineTo(2, height);
         this.context.lineTo(16, 2);
+        this.context.fillStyle = "#fff";
+        this.context.fill();
         this.context.lineWidth = 2;
         this.context.stroke();
         this.context.closePath();

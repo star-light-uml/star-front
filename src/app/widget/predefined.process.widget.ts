@@ -22,6 +22,8 @@ export class PredefinedProcessWidget extends Widget {
         this.context.lineTo(7, height);
         this.context.moveTo(width - 5, 2);
         this.context.lineTo(width - 5, height);
+        this.context.fillStyle = "#fff";
+        this.context.fill();
         this.context.lineWidth = 2;
         this.context.stroke();
         this.context.closePath();

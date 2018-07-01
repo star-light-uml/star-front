@@ -4,33 +4,34 @@ export class BackgroundView extends Widget {
 
     constructor() {
         super();
-        this.editProperty("width", "1801px");
-        this.editProperty("height", "1801px");
+        this._container = true;
         this.editProperty("cav-width", 1801);
         this.editProperty("cav-height", 1801);
+        this.setPadding("40px");
+        this.editProperty("box-shadow", "0px 5px 10px 0px rgba(0, 0, 0, 0.3)")
 
         this.getProperty("cav-width").canvasDrawProperty = true;
         this.getProperty("cav-height").canvasDrawProperty = true;
     }
 
     public drawSelf() {
-        const width = this.getPropertyValue("cav-width") - 90;
-        const height = this.getPropertyValue("cav-height") - 90;
+        const width = this.getPropertyValue("cav-width");
+        const height = this.getPropertyValue("cav-height");
         this.context.beginPath();
 
         this.context.fillStyle = "#f2f2f2";
-        this.context.fillRect(5, 5, width + 80, height + 80);
+        this.context.fillRect(2, 2, width, height);
 
         this.context.fillStyle = "#fff";
-        this.context.fillRect(40, 40, width, height);
+        this.context.fillRect(0, 0, width, height);
 
         const gridWidth = 30;
         this.context.fillStyle = "#e5e5e5";
         for (let i = 0; i < (height / gridWidth); i++) {
-            this.context.fillRect(40, gridWidth * i + 40, width , 1);
+            this.context.fillRect(0, gridWidth * i, width , 1);
         }
         for (let i = 0; i < (width / gridWidth); i++) {
-            this.context.fillRect(gridWidth * i + 40, 40, 1, height);
+            this.context.fillRect(gridWidth * i, 0, 1, height);
         }
         this.context.closePath();
     }

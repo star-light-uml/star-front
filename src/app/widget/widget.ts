@@ -9,6 +9,8 @@ export class Widget {
      */
     private _children: Widget [] = [];
 
+    private _parent: Widget;
+
     /**
      * 组件属性
      * @private
@@ -17,6 +19,7 @@ export class Widget {
     private _properties: Property [] = [];
     private _drawing = false;
     private _focusDraw = false;
+    protected _container = false;
 
     /**
      * 绘图上下文
@@ -24,10 +27,13 @@ export class Widget {
     private _context;
 
     constructor() {
-        this.editProperty("height", "100px");
         this.editProperty("cav-height", 100);
-        this.editProperty("width", "100px");
         this.editProperty("cav-width", 100);
+        this.editProperty("margin-left", "0");
+        this.editProperty("margin-right", "0");
+        this.editProperty("margin-bottom", "0");
+        this.editProperty("margin-top", "0");
+        this.setPadding("0");
     }
 
 
@@ -41,6 +47,16 @@ export class Widget {
 
     public get children() {
         return this._children;
+    }
+
+    public addChild(widget: Widget) {
+        if (this._container) {
+            this.children.push(widget);
+        } else {
+            if (this._parent != null) {
+                this._parent.addChild(widget);
+            }
+        }
     }
 
     get properties(): Property[] {
@@ -88,10 +104,17 @@ export class Widget {
 
     public style(): any {
         return {
-            width: this.property("width", "100px") ,
-            height: this.property("height", "100px"),
             top: this.property("top", 0),
-            left: this.property("left", 0)
+            left: this.property("left", 0),
+            "margin-left": this.property("margin-left", "0"),
+            "margin-top": this.property("margin-top", "0"),
+            "margin-right": this.property("margin-right", "0"),
+            "margin-bottom": this.property("margin-bottom", "0"),
+            "padding-left": this.property("padding-left", "0"),
+            "padding-top": this.property("padding-top", "0"),
+            "padding-right": this.property("padding-right", "0"),
+            "padding-bottom": this.property("padding-bottom", "0"),
+            "position": this.property("position", null)
         };
     }
 
@@ -132,5 +155,32 @@ export class Widget {
 
     set focusDraw(value: boolean) {
         this._focusDraw = value;
+    }
+
+    get parent(): Widget {
+        return this._parent;
+    }
+
+    set parent(value: Widget) {
+        this._parent = value;
+    }
+
+    setPadding(top: string, right: string = null, bottom: string = null, left: string = null) {
+        if (right != null) {
+            this.editProperty("padding-right", right);
+        } else {
+            this.editProperty("padding-right", top);
+        }
+        if (bottom != null) {
+            this.editProperty("padding-bottom", bottom);
+        } else {
+            this.editProperty("padding-bottom", top);
+        }
+        if (left != null) {
+            this.editProperty("padding-left", right);
+        } else {
+            this.editProperty("padding-left", top);
+        }
+        this.editProperty("padding-top", top);
     }
 }

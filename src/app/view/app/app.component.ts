@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {BackgroundView} from "../../widget/background.view";
 import {WidgetService} from "../../service/widget.service";
+import {ProjectService} from "../../service/project.service";
 
 @Component({
     selector: 'app-root',
@@ -8,9 +9,8 @@ import {WidgetService} from "../../service/widget.service";
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    background = new BackgroundView();
 
-    constructor(public widgetService: WidgetService) {
+    constructor(public widgetService: WidgetService, public projectService: ProjectService) {
         widgetService.widgetInit();
     }
 }

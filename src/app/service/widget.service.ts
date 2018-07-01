@@ -86,12 +86,17 @@ export class WidgetService {
                 g.types.forEach((t) => {
                     group.addType(t.name, t.type, t.value);
                     t.widgets.forEach((w) => {
+                        const wid = this.widgetFactoryService.createWidget(w.key);
+                        if (wid == null) {
+                            return;
+                        }
+                        wid.editProperty("position", "relative");
                         group.registryWidget({
                             name: w.name,
                             key: w.key,
                             icon: w.icon,
                             sort: w.value,
-                            defaultWidget: this.widgetFactoryService.createWidget(w.key),
+                            defaultWidget: wid,
                             type: t.type
                         });
                     });
