@@ -1,0 +1,39 @@
+.resize-item{
+    width: 6px;
+    height: 6px;
+    background: #0d2dcc;
+    position: absolute;
+    z-index: 1000;
+}
+
+.left-top-item{
+    cursor: nwse-resize;
+}
+
+.top-item{
+    cursor: ns-resize;
+}
+
+.right-top-item{
+    cursor: nesw-resize;
+}
+
+.left-item{
+    cursor: ew-resize;
+}
+
+.right-item{
+    cursor: ew-resize;
+}
+
+.left-bottom-item{
+    cursor: nesw-resize;
+}
+
+.bottom-item{
+    cursor: ns-resize;
+}
+
+.right-bottom-item{
+    cursor: nwse-resize;
+}

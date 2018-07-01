@@ -1,0 +1,10 @@
+<div>
+    <div class="resize-item left-top-item" [ngStyle]="{left: '0px', top: '0px'}" (mousedown)="resizeDown('lt', $event)"></div>
+    <div class="resize-item top-item" [ngStyle]="{left:(width / 2 + 3) + 'px', top: '0px'}" (mousedown)="resizeDown('t', $event)"></div>
+    <div class="resize-item right-top-item" [ngStyle]="{left:(width  + 6) + 'px', top: '0px'}" (mousedown)="resizeDown('rt', $event)"></div>
+    <div class="resize-item left-item" [ngStyle]="{left: '0px', top: (height /2 + 3) + 'px'}" (mousedown)="resizeDown('l', $event)"></div>
+    <div class="resize-item right-item" [ngStyle]="{left: (width  + 6) + 'px', top: (height /2 + 3) + 'px'}" (mousedown)="resizeDown('r', $event)"></div>
+    <div class="resize-item left-bottom-item"  [ngStyle]="{left: '0px', top: (height  + 6) + 'px'}" (mousedown)="resizeDown('lb', $event)"></div>
+    <div class="resize-item right-bottom-item" [ngStyle]="{left: (width + 6) + 'px', top: (height  + 6) + 'px'}" (mousedown)="resizeDown('rb', $event)"></div>
+    <div class="resize-item bottom-item" [ngStyle]="{left: (width / 2 + 3) + 'px', top: (height  + 6) + 'px'}" (mousedown)="resizeDown('b', $event)"></div>
+</div>
