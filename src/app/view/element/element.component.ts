@@ -24,11 +24,14 @@ export class ElementComponent implements DoCheck {
         }
     }
 
-    leftClick() {
+    leftClick(event) {
         if (this.statusService.status === StatusService.NEW_ELEMENT) {
             this.statusService.status = StatusService.NORMAL;
-            const wid = this.widgetFactoryService.createWidget(this.statusService.newElementObject["key"]);
+            event.cancelBubble = true;
+            const wid = this.widgetFactoryService.createWidget(this.statusService.newElementKey);
             if (wid != null) {
+                wid.editProperty("left", event.offsetX + "px");
+                wid.editProperty("top", event.offsetY + "px");
                 wid.focusDraw = true;
                 this.content.addChild(wid);
             }

@@ -35,10 +35,8 @@ export class WidgetListComponent implements OnInit {
         }
     }
 
-    click(widget, event) {
+    click(widget) {
         this.statusService.status = StatusService.NEW_ELEMENT;
-        this.statusService.newElementObject = {
-            key: widget.key
-        };
+        this.statusService.newElementKey =  widget.key;
     }
 }

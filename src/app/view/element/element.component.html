@@ -1,6 +1,6 @@
-<div class="element" [ngStyle] = "content.style()" (click)="leftClick()">
+<div class="element" [ngStyle] = "content.style()">
     <canvas #canvas width="{{content.property('cav-width', '100')}}" height="{{content.property('cav-height', '100')}}">Your browser can't support canvas tag</canvas>
-    <div class="element-container" [ngStyle]="containerStyle()">
+    <div class="element-container" [ngStyle]="containerStyle()" (click)="leftClick($event)">
         <app-element *ngFor="let c of content.children" [content]="c"></app-element>
     </div>
 </div>

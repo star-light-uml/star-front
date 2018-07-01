@@ -34,6 +34,8 @@ export class Property {
      */
     private _canvasDrawProperty = false;
 
+    private _styleProperty = false;
+
     get value(): any {
         return this._value;
     }
@@ -78,5 +80,14 @@ export class Property {
 
     get needReDraw(): boolean {
         return this._canvasDrawProperty && this._needReDraw;
+    }
+
+
+    get styleProperty(): boolean {
+        return this._styleProperty;
+    }
+
+    set styleProperty(value: boolean) {
+        this._styleProperty = value;
     }
 }

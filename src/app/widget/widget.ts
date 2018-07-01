@@ -1,5 +1,5 @@
-
 import {Property} from "../util/property";
+import {Utils} from "../util/utils";
 
 export class Widget {
     /**
@@ -21,12 +21,29 @@ export class Widget {
     private _focusDraw = false;
     protected _container = false;
 
+    protected _stylePropertyList: string [] = [
+        "margin-left",
+        "margin-top",
+        "margin-right",
+        "margin-bottom",
+        "padding-top",
+        "padding-right",
+        "padding-bottom",
+        "padding-left",
+        "position",
+        "left",
+        "top"
+    ];
+
     /**
      * 绘图上下文
      */
     private _context;
 
     constructor() {
+        this.editProperty("top", "0");
+        this.editProperty("left", "0");
+        this.editProperty("position", null);
         this.editProperty("cav-height", 100);
         this.editProperty("cav-width", 100);
         this.editProperty("margin-left", "0");
@@ -34,6 +51,10 @@ export class Widget {
         this.editProperty("margin-bottom", "0");
         this.editProperty("margin-top", "0");
         this.setPadding("0");
+
+        this._stylePropertyList.forEach((s) => {
+            this.getProperty(s).styleProperty = true;
+        });
     }
 
 
@@ -51,9 +72,20 @@ export class Widget {
 
     public addChild(widget: Widget) {
         if (this._container) {
+            widget.parent = this;
             this.children.push(widget);
         } else {
             if (this._parent != null) {
+                const left = Utils.getValue(this.getPropertyValue("left"))
+                    + Utils.getValue(this.getPropertyValue("margin-left"))
+                    + Utils.getValue(this.getPropertyValue("padding-left"))
+                    + Utils.getValue(widget.getPropertyValue("left"));
+                const top = Utils.getValue(this.getPropertyValue("top"))
+                    + Utils.getValue(this.getPropertyValue("margin-top"))
+                    + Utils.getValue(this.getPropertyValue("padding-top"))
+                    + Utils.getValue(widget.getPropertyValue("top"));
+                widget.editProperty("top", top + "px");
+                widget.editProperty("left", left + "px");
                 this._parent.addChild(widget);
             }
         }
@@ -103,19 +135,13 @@ export class Widget {
     }
 
     public style(): any {
-        return {
-            top: this.property("top", 0),
-            left: this.property("left", 0),
-            "margin-left": this.property("margin-left", "0"),
-            "margin-top": this.property("margin-top", "0"),
-            "margin-right": this.property("margin-right", "0"),
-            "margin-bottom": this.property("margin-bottom", "0"),
-            "padding-left": this.property("padding-left", "0"),
-            "padding-top": this.property("padding-top", "0"),
-            "padding-right": this.property("padding-right", "0"),
-            "padding-bottom": this.property("padding-bottom", "0"),
-            "position": this.property("position", null)
-        };
+        const result = {};
+        this._properties.forEach((p) => {
+            if (p.styleProperty) {
+                result[p.name] = p.value;
+            }
+        });
+        return result;
     }
 
     protected needDraw(): boolean {
@@ -124,7 +150,7 @@ export class Widget {
         }
         for (const pro of this.properties) {
             if (pro.needReDraw) {
-               return true;
+                return true;
             }
         }
         return false;

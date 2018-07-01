@@ -2,7 +2,7 @@
     <li nz-submenu *ngFor="let type of widgetService.getGroup().widgetType" [nzOpen]="true">
         <span title>{{type.name}}</span>
         <ul>
-            <li nz-menu-item *ngFor="let widget of type.widgets" ngClass="{{widget == showWidget? 'active':''}}" (click)="click(widget, $event)"
+            <li nz-menu-item *ngFor="let widget of type.widgets" ngClass="{{widget == showWidget? 'active':''}}" (click)="click(widget)"
                 (mouseenter)="enterItem(widget, $event)"
                 (mouseleave)="showWidget = null"
             >{{widget.name}}</li>

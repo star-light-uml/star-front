@@ -7,7 +7,7 @@ export class StatusService {
 
     private _status = StatusService.NORMAL;
 
-    private _newElementObject = {};
+    private _newElementKey;
 
     get status(): string {
         return this._status;
@@ -17,12 +17,11 @@ export class StatusService {
         this._status = value;
     }
 
-
-    get newElementObject(): {} {
-        return this._newElementObject;
+    get newElementKey() {
+        return this._newElementKey;
     }
 
-    set newElementObject(value: {}) {
-        this._newElementObject = value;
+    set newElementKey(value) {
+        this._newElementKey = value;
     }
 }
