@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {BackgroundView} from "../../widget/background.view";
 import {WidgetService} from "../../service/widget.service";
 import {ProjectService} from "../../service/project.service";
 

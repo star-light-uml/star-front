@@ -17,7 +17,6 @@ export class WidgetFactoryService {
         for (let i = 0; i < this._factories.length; i++) {
             const wid = this._factories[i].create(key);
             if (wid != null) {
-                wid.statusService = this.statusService;
                 return wid;
             }
         }

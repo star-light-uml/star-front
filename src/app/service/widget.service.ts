@@ -90,7 +90,6 @@ export class WidgetService {
                         if (wid == null) {
                             return;
                         }
-                        wid.editProperty("position", "relative");
                         group.registryWidget({
                             name: w.name,
                             key: w.key,
