@@ -10,15 +10,15 @@ export class DelayWidget  extends Widget {
 
     public drawSelf() {
         const rect: RectProperty = <RectProperty>this.getProperty("Rect");
-        const height = rect.height.value - 4;
+        const height = rect.height.value - 1;
+        const width = rect.width.value - 1;
         this._context.beginPath();
         this._context.strokeStyle = "#404040";
-        this._context.arc(rect.width.value - height / 2 - 2, height / 2 + 2,
-            height / 2, 1.5 * Math.PI, 0.5 * Math.PI);
-        this._context.moveTo(rect.width.value - height / 2 - 2, 2);
-        this._context.lineTo(2, 2);
-        this._context.lineTo(2, height + 2);
-        this._context.lineTo(rect.width.value - height / 2 - 2, height + 2);
+        this._context.moveTo(1, 1);
+        this._context.arcTo(width, 1, width, height / 2, height / 2);
+        this._context.arcTo(width, height, width - height / 2, height, height / 2);
+        this._context.lineTo(1, height);
+        this._context.lineTo(1, 0);
         this._context.fillStyle = "#fff";
         this._context.fill();
         this._context.lineWidth = 2;

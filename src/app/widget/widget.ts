@@ -38,7 +38,7 @@ export class Widget {
     /**
      * canvas标签
      */
-    private _element;
+    _element;
 
     /**
      * canvas标签的上下文
@@ -111,9 +111,8 @@ export class Widget {
 
         const rect = new RectProperty();
         rect.name = "Rect";
-        rect.width.value = 100;
-        rect.height.value = 40;
         this.addProperty(rect);
+        this.resize(100, 40);
     }
 
     public addChild(widget: Widget) {
@@ -193,7 +192,9 @@ export class Widget {
         for (let i = 0; i < this._children.length; i++) {
             this.children[i].draw();
         }
-        this._targetContext.drawImage(this._element, this._getGlobalX(), this._getGlobalY());
+        this._targetContext.scale(0.25, 0.25);
+        this._targetContext.drawImage(this._element, this._getGlobalX() * 4, this._getGlobalY() * 4);
+        this._targetContext.scale(4, 4);
     }
 
     public drawSelf() {
@@ -204,8 +205,13 @@ export class Widget {
         const rect: RectProperty = <RectProperty>this.getProperty("Rect");
         rect.width.value = width;
         rect.height.value = height;
-        this._element.width = width;
+        width = width * 4;
+        height = height * 4;
+        this._element.style.width = width + "px";
+        this._element.style.height = height + "px";
         this._element.height = height;
+        this._element.width = width ;
+        this._context.scale(4, 4);
     }
 
     public _mouseUp(event): boolean {
