@@ -50,6 +50,11 @@ export class Widget {
      */
     private _targetContext;
 
+    /**
+     * 是否是容器
+     */
+    private _container = false;
+
 
     get properties(): Property[] {
         return this._properties;
@@ -83,6 +88,14 @@ export class Widget {
         this._targetContext = value;
     }
 
+    get container(): boolean {
+        return this._container;
+    }
+
+    set container(value: boolean) {
+        this._container = value;
+    }
+
     /**
      * 构造函数
      * @param {Widget} parent 父组件
@@ -101,6 +114,12 @@ export class Widget {
         rect.width.value = 100;
         rect.height.value = 40;
         this.addProperty(rect);
+    }
+
+    public addChild(widget: Widget) {
+        this.children.push(widget);
+        widget.parent = this;
+        widget.targetContext = this._context;
     }
 
     /**
@@ -187,5 +206,44 @@ export class Widget {
         rect.height.value = height;
         this._element.width = width;
         this._element.height = height;
+    }
+
+    public _mouseUp(event): boolean {
+        for (let i = 0; i < this.children.length; i++) {
+            if (this.children[i]._mouseUp(event)) {
+                return true;
+            }
+        }
+
+        return this.mouseUp(event);
+    }
+
+    public mouseUp(event): boolean {
+        return false;
+    }
+
+    public addNewWidget(widget: Widget) {
+        if (!widget) {
+            return;
+        }
+        if (!this.container) {
+            if (this.parent != null) {
+                this.parent.addNewWidget(widget);
+            }
+            return;
+        }
+        const rect: RectProperty = <RectProperty> widget.getProperty("Rect");
+        const gx = this._getGlobalX();
+        const gy = this._getGlobalY();
+        if (rect.x.value < gx || rect.x.value >= gx + this._element.width
+        || rect.y.value < gy || rect.y.value >= gy + this._element.height) {
+            if (this.parent != null) {
+                this.parent.addNewWidget(widget);
+            }
+        } else {
+            rect.x.value = rect.x.value - gx;
+            rect.y.value = rect.y.value - gy;
+            this.addChild(widget);
+        }
     }
 }

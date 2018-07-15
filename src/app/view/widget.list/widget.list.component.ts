@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {WidgetDescription} from "../../util/widget.description";
 import {WidgetService} from "../../service/widget.service";
 import {RectProperty} from "../../property/rect.property";
+import {StatusService} from "../../service/status.service";
 
 @Component({
   selector: 'app-widget-list',
@@ -12,7 +13,7 @@ export class WidgetListComponent implements OnInit {
     showWidget: WidgetDescription = null;
     showWidgetTop = 0;
 
-    constructor(public widgetService: WidgetService) { }
+    constructor(public widgetService: WidgetService, public statusService: StatusService) { }
 
     ngOnInit() {
     }
@@ -28,5 +29,7 @@ export class WidgetListComponent implements OnInit {
     }
 
     click(widget) {
+        this.statusService.status = StatusService.NEW_ELEMENT;
+        this.statusService.newElementKey =  widget.key;
     }
 }

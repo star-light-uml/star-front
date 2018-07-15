@@ -5,6 +5,7 @@ export class BackgroundWidget extends Widget {
 
     constructor() {
         super(null);
+        this.container = true;
         window.setInterval(() => {
             this.draw();
         }, 10);
