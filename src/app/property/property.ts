@@ -15,26 +15,31 @@ export class Property {
     private _name: string;
 
     /**
+     * 是否被修改过
+     * @type {boolean}
+     * @private
+     */
+    private _dirty = false;
+
+    /**
      * 属性是否可变
      * @type {boolean}
      */
     private _editable = true;
 
     /**
-     * 是否需要刷新页面
-     * @type {boolean}
+     * 属性编辑器类型
+     * @type {string}
      * @private
      */
-    private _needReDraw = false;
+    private _editorKey = "";
 
     /**
-     *
-     * @type {boolean}
+     * 子属性
+     * @type {Array}
      * @private
      */
-    private _canvasDrawProperty = false;
-
-    private _styleProperty = false;
+    private _children: Property [] = [];
 
     get value(): any {
         return this._value;
@@ -43,14 +48,10 @@ export class Property {
     set value(value: any) {
         if (this.editable) {
             if (this._value !== value) {
-                this._needReDraw = true;
+                this._value = value;
+                this._dirty = true;
             }
-            this._value = value;
         }
-    }
-
-    drawDone() {
-        this._needReDraw = false;
     }
 
     get name(): string {
@@ -69,25 +70,33 @@ export class Property {
         this._editable = value;
     }
 
-
-    get canvasDrawProperty(): boolean {
-        return this._canvasDrawProperty;
+    get dirty(): boolean {
+        return this._dirty;
     }
 
-    set canvasDrawProperty(value: boolean) {
-        this._canvasDrawProperty = value;
-    }
-
-    get needReDraw(): boolean {
-        return this._canvasDrawProperty && this._needReDraw;
+    set dirty(value: boolean) {
+        this._dirty = value;
     }
 
 
-    get styleProperty(): boolean {
-        return this._styleProperty;
+    get editorKey(): string {
+        return this._editorKey;
     }
 
-    set styleProperty(value: boolean) {
-        this._styleProperty = value;
+    set editorKey(value: string) {
+        this._editorKey = value;
+    }
+
+    public showString(): string {
+        return this._value;
+    }
+
+
+    get children(): Property[] {
+        return this._children;
+    }
+
+    set children(value: Property[]) {
+        this._children = value;
     }
 }

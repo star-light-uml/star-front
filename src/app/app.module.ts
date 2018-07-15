@@ -15,13 +15,17 @@ import {MessageService} from "./service/message.service";
 import {WidgetFactoryService} from "./service/widget.factory.service";
 import {ProjectService} from "./service/project.service";
 import {StatusService} from "./service/status.service";
+import { WidgetListComponent } from './view/widget.list/widget.list.component';
+import { WidgetShowComponent } from './view/widget.list/widget.show/widget.show.component';
 
 registerLocaleData(zh);
 
 @NgModule({
     declarations: [
         AppComponent,
-        MessageComponent
+        MessageComponent,
+        WidgetListComponent,
+        WidgetShowComponent
     ],
     imports: [
         BrowserModule,
