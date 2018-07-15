@@ -98,6 +98,8 @@ export class Widget {
 
         const rect = new RectProperty();
         rect.name = "Rect";
+        rect.width.value = 100;
+        rect.height.value = 40;
         this.addProperty(rect);
     }
 
