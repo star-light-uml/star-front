@@ -188,13 +188,16 @@ export class Widget {
     }
 
     public draw() {
+        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
+        this._context.clearRect(0, 0, rect.width.value, rect.height.value);
         this.drawSelf();
         for (let i = 0; i < this._children.length; i++) {
             this.children[i].draw();
         }
-        this._targetContext.scale(0.25, 0.25);
-        this._targetContext.drawImage(this._element, this._getGlobalX() * 4, this._getGlobalY() * 4);
-        this._targetContext.scale(4, 4);
+        const ratio = window.devicePixelRatio || 1;
+        this._targetContext.scale(1 / ratio, 1 / ratio);
+        this._targetContext.drawImage(this._element, this._getGlobalX() * ratio, this._getGlobalY() * ratio);
+        this._targetContext.scale(ratio, ratio);
     }
 
     public drawSelf() {
@@ -205,13 +208,14 @@ export class Widget {
         const rect: RectProperty = <RectProperty>this.getProperty("Rect");
         rect.width.value = width;
         rect.height.value = height;
-        width = width * 4;
-        height = height * 4;
+        const ratio = window.devicePixelRatio || 1;
+        width = width * ratio;
+        height = height * ratio;
         this._element.style.width = width + "px";
         this._element.style.height = height + "px";
         this._element.height = height;
         this._element.width = width ;
-        this._context.scale(4, 4);
+        this._context.scale(ratio, ratio);
     }
 
     public _mouseUp(event): boolean {
