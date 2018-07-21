@@ -6,6 +6,8 @@ export class BackgroundWidget extends Widget {
     constructor() {
         super(null);
         this.container = true;
+        this.selectable = false;
+        this.key = "background";
         this.resize(1501, 811);
     }
 

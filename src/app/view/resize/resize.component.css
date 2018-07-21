@@ -1,0 +1,14 @@
+.resize-item{
+    width: 9px;
+    height: 9px;
+    border: 1px solid #504dc4;
+    position: absolute;
+    background: #fff;
+    z-index: 9;
+}
+
+.resize-body{
+    position: absolute;
+    border: 1px solid #504dc4;
+    cursor: move;
+}

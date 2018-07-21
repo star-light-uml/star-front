@@ -41,7 +41,7 @@ export class Widget {
      * @type {boolean}
      * @private
      */
-    private _selected = true;
+    private _selected = false;
 
     /**
      * canvas标签
@@ -57,6 +57,8 @@ export class Widget {
      * 最终绘制的canvas context
      */
     private _targetContext;
+
+    private _key;
 
     /**
      * 是否是容器
@@ -98,6 +100,7 @@ export class Widget {
 
     set selected(value: boolean) {
         this._selected = value;
+        this.draw();
     }
 
     set targetContext(value) {
@@ -182,19 +185,21 @@ export class Widget {
     }
 
     public draw() {
+        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
         this._context.save();
-        if (this.selected) {
-            this.drawSelectBody();
-        }
+        this._context.clearRect(0, 0, rect.width.value, rect.height.value);
         this.drawSelf();
         this._context.restore();
         for (let i = 0; i < this._children.length; i++) {
             this.children[i].draw();
         }
         const ratio = window.devicePixelRatio || 1;
-        this._targetContext.scale(1 / ratio, 1 / ratio);
-        this._targetContext.drawImage(this._element, 0, 0);
-        this._targetContext.scale(ratio, ratio);
+        if (this._targetContext) {
+            this._targetContext.scale(1 / ratio, 1 / ratio);
+            this._targetContext.clearRect(0, 0, rect.width.value, rect.height.value);
+            this._targetContext.drawImage(this._element, 0, 0);
+            this._targetContext.scale(ratio, ratio);
+        }
     }
 
     public drawSelf() {
@@ -221,14 +226,23 @@ export class Widget {
     public _mouseUp(event) {
     }
 
-    public addNewWidget(widget: Widget) {
+    public addNewWidget(widget: Widget):boolean {
         if (!widget) {
-            return;
+            return false;
         }
         if (!this.container) {
-            return;
+            if (this.parent) {
+               const rect: RectProperty = <RectProperty> this.getProperty("Rect");
+               const widRect: RectProperty = <RectProperty> widget.getProperty("Rect");
+                widRect.x.value = rect.x.value + widRect.x.value;
+                widRect.y.value = rect.y.value + widRect.y.value;
+                this.parent.addNewWidget(widget);
+                return true;
+            }
+            return false;
         }
         this.addChild(widget);
+        return true;
     }
 
     properChange(property: Property) {
@@ -244,13 +258,12 @@ export class Widget {
         }
     }
 
-    drawSelectBody() {
-        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
-        this._context.save();
-        this._context.strokeStyle = "#504dc4";
-        this._context.lineWidth = 2;
-        this._context.strokeRect(0, 0, rect.width.value, rect.height.value);
-        this._context.stroke();
-        this._context.restore();
+
+    get key() {
+        return this._key;
+    }
+
+    set key(value) {
+        this._key = value;
     }
 }

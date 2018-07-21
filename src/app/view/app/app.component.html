@@ -5,8 +5,9 @@
         </nz-sider>
         <nz-layout>
             <nz-content style="overflow: auto;" >
-                <div style="padding: 20px;">
-                    <app-element [widget]="background"></app-element>
+                <div style="padding: 20px;position: relative;" class="background-element" (mousemove)="mouseMove($event)">
+                    <app-element [widget]="background">
+                    </app-element>
                 </div>
             </nz-content>
             <nz-sider>

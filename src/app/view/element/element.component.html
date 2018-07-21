@@ -1,4 +1,5 @@
 <div [ngStyle]="getStyle()" class="element-panel">
-    <canvas #canvas (mouseup)="mouseUp($event)" class="element-canvas"></canvas>
+    <canvas #canvas (mouseup)="mouseUp($event)" (mousedown)="mouseDown($event)" class="element-canvas"></canvas>
+    <app-resize *ngIf="widget.key ==='background' &&  statusService.selectWidget.length > 0" [rect]="statusService.getSelectRect()"></app-resize>
     <app-element *ngFor="let wid of widget.children" [widget]="wid" style="display: block;width: 0;height: 0"></app-element>
 </div>
