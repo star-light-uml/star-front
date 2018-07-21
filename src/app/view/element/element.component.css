@@ -1,0 +1,8 @@
+.element-panel{
+    position: relative;
+    display: flex;
+}
+
+.element-canvas{
+    position: absolute;
+}

@@ -17,6 +17,7 @@ import {ProjectService} from "./service/project.service";
 import {StatusService} from "./service/status.service";
 import { WidgetListComponent } from './view/widget.list/widget.list.component';
 import { WidgetShowComponent } from './view/widget.list/widget.show/widget.show.component';
+import { ElementComponent } from './view/element/element.component';
 
 registerLocaleData(zh);
 
@@ -25,7 +26,8 @@ registerLocaleData(zh);
         AppComponent,
         MessageComponent,
         WidgetListComponent,
-        WidgetShowComponent
+        WidgetShowComponent,
+        ElementComponent
     ],
     imports: [
         BrowserModule,

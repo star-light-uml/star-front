@@ -1,5 +1,6 @@
 import {Property} from "../property/property";
 import {RectProperty} from "../property/rect.property";
+import {StatusService} from "../service/status.service";
 
 export class Widget {
     /**
@@ -34,6 +35,13 @@ export class Widget {
      * @private
      */
     private _selectable = true;
+
+    /**
+     * 是否被选中
+     * @type {boolean}
+     * @private
+     */
+    private _selected = true;
 
     /**
      * canvas标签
@@ -84,8 +92,18 @@ export class Widget {
         this._selectable = value;
     }
 
+    get selected(): boolean {
+        return this._selected;
+    }
+
+    set selected(value: boolean) {
+        this._selected = value;
+    }
+
     set targetContext(value) {
         this._targetContext = value;
+        this.rectChange(<RectProperty>this.getProperty("Rect"));
+        this.draw();
     }
 
     get container(): boolean {
@@ -111,6 +129,9 @@ export class Widget {
 
         const rect = new RectProperty();
         rect.name = "Rect";
+        rect.listener((p) => {
+            this.properChange(p);
+        });
         this.addProperty(rect);
         this.resize(100, 40);
     }
@@ -118,22 +139,6 @@ export class Widget {
     public addChild(widget: Widget) {
         this.children.push(widget);
         widget.parent = this;
-        widget.targetContext = this._context;
-    }
-
-    /**
-     * 获取属性值
-     * @param {string} name 属性名称
-     * @param def 如果没有找到属性时返回的默认值
-     * @returns {any}
-     */
-    public getPropertyValue(name: string, def: any = null): any {
-        const pro = this._name2Property[name];
-        if (pro != null) {
-            return pro.value();
-        } else {
-            return def;
-        }
     }
 
     /**
@@ -143,17 +148,6 @@ export class Widget {
      */
     public getProperty(name: string): Property {
         return this._name2Property[name];
-    }
-
-    /**
-     * 设置属性
-     * @param {string} name 属性名称
-     * @param value 属性值
-     */
-    public setProperty(name: string, value: any) {
-        if (this._name2Property[name]) {
-            this._name2Property[name].value = value;
-        }
     }
 
     /**
@@ -188,15 +182,18 @@ export class Widget {
     }
 
     public draw() {
-        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
-        this._context.clearRect(0, 0, rect.width.value, rect.height.value);
+        this._context.save();
+        if (this.selected) {
+            this.drawSelectBody();
+        }
         this.drawSelf();
+        this._context.restore();
         for (let i = 0; i < this._children.length; i++) {
             this.children[i].draw();
         }
         const ratio = window.devicePixelRatio || 1;
         this._targetContext.scale(1 / ratio, 1 / ratio);
-        this._targetContext.drawImage(this._element, this._getGlobalX() * ratio, this._getGlobalY() * ratio);
+        this._targetContext.drawImage(this._element, 0, 0);
         this._targetContext.scale(ratio, ratio);
     }
 
@@ -216,20 +213,12 @@ export class Widget {
         this._element.height = height;
         this._element.width = width ;
         this._context.scale(ratio, ratio);
-    }
-
-    public _mouseUp(event): boolean {
-        for (let i = 0; i < this.children.length; i++) {
-            if (this.children[i]._mouseUp(event)) {
-                return true;
-            }
+        if (this._targetContext) {
+            this.draw();
         }
-
-        return this.mouseUp(event);
     }
 
-    public mouseUp(event): boolean {
-        return false;
+    public _mouseUp(event) {
     }
 
     public addNewWidget(widget: Widget) {
@@ -237,23 +226,31 @@ export class Widget {
             return;
         }
         if (!this.container) {
-            if (this.parent != null) {
-                this.parent.addNewWidget(widget);
-            }
             return;
         }
-        const rect: RectProperty = <RectProperty> widget.getProperty("Rect");
-        const gx = this._getGlobalX();
-        const gy = this._getGlobalY();
-        if (rect.x.value < gx || rect.x.value >= gx + this._element.width
-        || rect.y.value < gy || rect.y.value >= gy + this._element.height) {
-            if (this.parent != null) {
-                this.parent.addNewWidget(widget);
-            }
-        } else {
-            rect.x.value = rect.x.value - gx;
-            rect.y.value = rect.y.value - gy;
-            this.addChild(widget);
+        this.addChild(widget);
+    }
+
+    properChange(property: Property) {
+        if (property.name === "Rect") {
+            this.rectChange(<RectProperty>property);
         }
+    }
+
+    rectChange(rect: RectProperty) {
+        if (this._targetContext) {
+            this._targetContext.canvas.width = rect.width.value;
+            this._targetContext.canvas.height = rect.height.value;
+        }
+    }
+
+    drawSelectBody() {
+        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
+        this._context.save();
+        this._context.strokeStyle = "#504dc4";
+        this._context.lineWidth = 2;
+        this._context.strokeRect(0, 0, rect.width.value, rect.height.value);
+        this._context.stroke();
+        this._context.restore();
     }
 }

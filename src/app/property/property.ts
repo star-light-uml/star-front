@@ -2,6 +2,7 @@
  * 属性基础类
  */
 export class Property {
+    private _valueChangeListener = [];
     /**
      * 属性值
      * @type {any}
@@ -13,13 +14,6 @@ export class Property {
      * @type {string}
      */
     private _name: string;
-
-    /**
-     * 是否被修改过
-     * @type {boolean}
-     * @private
-     */
-    private _dirty = false;
 
     /**
      * 属性是否可变
@@ -41,6 +35,8 @@ export class Property {
      */
     private _children: Property [] = [];
 
+    private _parent: Property;
+
     get value(): any {
         return this._value;
     }
@@ -49,9 +45,24 @@ export class Property {
         if (this.editable) {
             if (this._value !== value) {
                 this._value = value;
-                this._dirty = true;
+                this._valueChangeListener.forEach((cb) => {
+                    if (cb) {
+                        cb(this);
+                    }
+                });
+                if (this._parent) {
+                    this._parent._childValueChange();
+                }
             }
         }
+    }
+
+    private _childValueChange() {
+        this._valueChangeListener.forEach((cb) => {
+            if (cb) {
+                cb(this);
+            }
+        });
     }
 
     get name(): string {
@@ -70,15 +81,6 @@ export class Property {
         this._editable = value;
     }
 
-    get dirty(): boolean {
-        return this._dirty;
-    }
-
-    set dirty(value: boolean) {
-        this._dirty = value;
-    }
-
-
     get editorKey(): string {
         return this._editorKey;
     }
@@ -96,7 +98,12 @@ export class Property {
         return this._children;
     }
 
-    set children(value: Property[]) {
-        this._children = value;
+    addChildren(value: Property) {
+        this._children.push(value);
+        value._parent = this;
+    }
+
+    public listener(cb: Function) {
+        this._valueChangeListener.push(cb);
     }
 }

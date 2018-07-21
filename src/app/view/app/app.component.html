@@ -4,8 +4,10 @@
             <app-widget-list></app-widget-list>
         </nz-sider>
         <nz-layout>
-            <nz-content style="overflow: auto; padding: 20px;" >
-                <canvas (mouseup)="mouseUp($event)" #canvas width="{{contentWidth}}" height="{{contentHeight}}"></canvas>
+            <nz-content style="overflow: auto;" >
+                <div style="padding: 20px;">
+                    <app-element [widget]="background"></app-element>
+                </div>
             </nz-content>
             <nz-sider>
             </nz-sider>
