@@ -1,7 +1,13 @@
-<div class="resize-body" [ngStyle]="getBodyStyle()" (mousedown)="moveMouseDown($event)">
+<div id="resize-panel" [ngStyle]="getPanelStyle()" draggable="false" (drop)="drop($event)" (dragover)="dragOver($event)"
+    (mousemove)="mouseMove($event)" (mousedown)="mouseDown($event)" (mouseup)="mouseUp($event)"
+>
+    <div class="resize-body" [ngStyle]="getBodyStyle('l')"></div>
+    <div class="resize-body" [ngStyle]="getBodyStyle('t')"></div>
+    <div class="resize-body" [ngStyle]="getBodyStyle('r')"></div>
+    <div class="resize-body" [ngStyle]="getBodyStyle('b')"></div>
+    <div class="resize-item" [ngStyle]="getStyle('lt')"></div>
+    <div class="resize-item" [ngStyle]="getStyle('rt')"></div>
+    <div class="resize-item" [ngStyle]="getStyle('lb')"></div>
+    <div class="resize-item" [ngStyle]="getStyle('rb')"></div>
 </div>
-<div class="resize-item" [ngStyle]="getStyle('lt')"></div>
-<div class="resize-item" [ngStyle]="getStyle('rt')"></div>
-<div class="resize-item" [ngStyle]="getStyle('lb')"></div>
-<div class="resize-item" [ngStyle]="getStyle('rb')"></div>
 

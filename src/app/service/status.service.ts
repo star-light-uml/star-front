@@ -1,26 +1,27 @@
 import {Injectable} from "@angular/core";
 import {Widget} from "../widget/widget";
 import {RectProperty} from "../property/rect.property";
+import {BackgroundWidget} from "../widget/background.widget";
 
 @Injectable()
 export class StatusService {
     public static NORMAL = "normal";
+    public static SELECTING = "selecting";
     public static RESIZE = "resize";
-    public static NEW_ELEMENT = "new-element";
+
+    private _background: BackgroundWidget;
 
     private _selectWidget: Widget [] = [];
 
     private _status = StatusService.NORMAL;
 
-    private _resizeCursor = null;
+    get background(): BackgroundWidget {
+        return this._background;
+    }
 
-    private _mousePos = {};
-
-    private _newElementKey;
-
-    private _resizeType;
-
-    private _lastPoint;
+    set background(value: BackgroundWidget) {
+        this._background = value;
+    }
 
     get status(): string {
         return this._status;
@@ -30,42 +31,8 @@ export class StatusService {
         this._status = value;
     }
 
-    get newElementKey() {
-        return this._newElementKey;
-    }
-
-    set newElementKey(value) {
-        this._newElementKey = value;
-    }
-
-
-    get mousePos(): {} {
-        return this._mousePos;
-    }
-
-    set mousePos(value: {}) {
-        this._mousePos = value;
-    }
-
-
-    get resizeCursor(): any {
-        return this._resizeCursor;
-    }
-
-    set resizeCursor(value: any) {
-        this._resizeCursor = value;
-    }
-
     get selectWidget(): Widget[] {
         return this._selectWidget;
-    }
-
-    get resizeType() {
-        return this._resizeType;
-    }
-
-    set resizeType(value) {
-        this._resizeType = value;
     }
 
     addSelectWidget(widget: Widget) {
@@ -116,13 +83,5 @@ export class StatusService {
         });
 
         return rect;
-    }
-
-    get lastPoint() {
-        return this._lastPoint;
-    }
-
-    set lastPoint(value) {
-        this._lastPoint = value;
     }
 }

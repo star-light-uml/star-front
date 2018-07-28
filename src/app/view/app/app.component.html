@@ -5,7 +5,7 @@
         </nz-sider>
         <nz-layout>
             <nz-content style="overflow: auto;" >
-                <div style="padding: 20px;position: relative;" class="background-element" (mousemove)="mouseMove($event)">
+                <div style="padding: 20px;position: relative;" class="background-element" [ngStyle] = "getStyle()">
                     <app-element [widget]="background">
                     </app-element>
                 </div>

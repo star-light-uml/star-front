@@ -1,5 +1,8 @@
-<div [ngStyle]="getStyle()" class="element-panel">
-    <canvas #canvas (mouseup)="mouseUp($event)" (mousedown)="mouseDown($event)" class="element-canvas"></canvas>
+<div [ngStyle]="getStyle()" class="element-panel" [id]="widget.id" draggable="false" (dragstart)="dragStart()">
+    <canvas #canvas (mouseup)="mouseUp($event)" draggable="false"  (mousedown)="mouseDown($event)" (mousemove)="mouseMove($event)"
+            class="element-canvas" (drop)="drop($event)" (dragover)="dragOver($event)"></canvas>
     <app-resize *ngIf="widget.key ==='background' &&  statusService.selectWidget.length > 0" [rect]="statusService.getSelectRect()"></app-resize>
+
     <app-element *ngFor="let wid of widget.children" [widget]="wid" style="display: block;width: 0;height: 0"></app-element>
+    <app-select-view *ngIf="statusService.status === 'selecting' && widget.key ==='background'"></app-select-view>
 </div>

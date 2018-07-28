@@ -1,8 +1,8 @@
-<ul nz-menu [nzMode]="'inline'" nzTheme='dark' [nzSelectable] = "false" [nzInlineIndent]="16" *ngIf="widgetService.getGroup() != null">
+<ul nz-menu [nzMode]="'inline'" nzTheme='dark' [nzSelectable] = "false" [nzInlineIndent]="16" *ngIf="widgetService.getGroup() != null" (dragstart)="dragStart($event)">
     <li nz-submenu *ngFor="let type of widgetService.getGroup().widgetType" [nzOpen]="true">
         <span title>{{type.name}}</span>
         <ul>
-            <li nz-menu-item *ngFor="let widget of type.widgets" ngClass="{{widget == showWidget? 'active':''}}" (click)="click(widget)"
+            <li draggable="true" nz-menu-item *ngFor="let widget of type.widgets" ngClass="{{widget == showWidget? 'active':''}}"
                 (mouseenter)="enterItem(widget, $event)"
                 (mouseleave)="showWidget = null"
             >{{widget.name}}</li>

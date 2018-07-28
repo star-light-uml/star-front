@@ -36,63 +36,38 @@ export class ElementComponent implements OnInit, AfterViewInit {
             "height": rect.height.value + "px",
             "width": rect.width.value + "px"
         };
-
-        if (this.widget.selected) {
-            style["cursor"] = "move";
-        }
-
-        if (this.statusService.status === StatusService.RESIZE) {
-            if (this.statusService.resizeType === "move") {
-                style["cursor"] = "move";
-            }
-        }
-
         return style;
     }
 
     mouseDown(event) {
-        if (this.statusService.status === StatusService.NORMAL) {
-            if (event.button !== 0) {
-                return;
-            }
-            if (!event.ctrlKey && !this.widget.selected) {
-                this.statusService.cleanSelectWidget();
-            }
-            if (this.widget.selectable) {
-                if (event.ctrlKey && this.widget.selected) {
-                    this.statusService.unSelectWidget(this.widget);
-                } else {
-                    this.statusService.addSelectWidget(this.widget);
-                }
-            }
-            if (event.button === 0 && this.widget.selected) {
-                this.statusService.status = StatusService.RESIZE;
-                this.statusService.resizeType = "move";
-                this.statusService.lastPoint = null;
-            }
-        }
+        this.widget.mouseDown(event);
     }
 
     mouseUp(event) {
-        if (this.statusService.status === StatusService.NEW_ELEMENT) {
-            if (event.button !== 0) {
-                this.statusService.status = StatusService.NORMAL;
-                return;
-            }
-            this.statusService.status = StatusService.NORMAL;
-            const wid = this.widgetFactory.createWidget(this.statusService.newElementKey);
-            if (wid) {
-                const rect = <RectProperty>wid.getProperty("Rect");
-                rect.x.value = event.offsetX;
-                rect.y.value = event.offsetY;
-                if (this.widget.addNewWidget(wid)) {
+        this.widget.mouseUp(event);
+    }
+
+    mouseMove(event) {
+        this.widget.mouseMove(event);
+    }
+
+    drop(event) {
+        if (event.dataTransfer.getData("type") === "new") {
+            const wid = this.widgetFactory.createWidget(event.dataTransfer.getData("key"));
+            if (wid !== null) {
+                if (this.widget.addNewWidget(event, wid)) {
                     this.statusService.cleanSelectWidget();
                     this.statusService.addSelectWidget(wid);
                 }
             }
-            event.cancelBubble = true;
-        } else if (this.statusService.status === StatusService.RESIZE) {
-            this.statusService.status = StatusService.NORMAL;
         }
+    }
+
+    dragOver(event) {
+        event.preventDefault();
+    }
+
+    dragStart() {
+        return false;
     }
 }

@@ -3,6 +3,7 @@ import {WidgetDescription} from "../../util/widget.description";
 import {WidgetService} from "../../service/widget.service";
 import {RectProperty} from "../../property/rect.property";
 import {StatusService} from "../../service/status.service";
+import {Constant} from "../../service/constant";
 
 @Component({
   selector: 'app-widget-list',
@@ -28,8 +29,12 @@ export class WidgetListComponent implements OnInit {
         }
     }
 
-    click(widget) {
-        this.statusService.status = StatusService.NEW_ELEMENT;
-        this.statusService.newElementKey =  widget.key;
+    dragStart(event) {
+        const img = document.createElement("img");
+        img.src = this.showWidget.defaultWidget.element.toDataURL("image/png");
+        event.dataTransfer.setDragImage(this.showWidget.defaultWidget.targetContext.canvas,
+            Constant.NEW_ELEMENT_DROP_OFFSET, Constant.NEW_ELEMENT_DROP_OFFSET);
+        event.dataTransfer.setData("type", "new");
+        event.dataTransfer.setData("key", this.showWidget.key);
     }
 }

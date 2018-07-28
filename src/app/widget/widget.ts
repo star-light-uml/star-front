@@ -1,8 +1,11 @@
 import {Property} from "../property/property";
 import {RectProperty} from "../property/rect.property";
+import {Utils} from "../util/utils";
+import {Constant} from "../service/constant";
 import {StatusService} from "../service/status.service";
 
 export class Widget {
+    private _id = "";
     /**
      * 子组件
      * @type {Array}
@@ -46,7 +49,7 @@ export class Widget {
     /**
      * canvas标签
      */
-    _element;
+    private _element;
 
     /**
      * canvas标签的上下文
@@ -57,6 +60,8 @@ export class Widget {
      * 最终绘制的canvas context
      */
     private _targetContext;
+
+    private _statusService: StatusService;
 
     private _key;
 
@@ -94,6 +99,10 @@ export class Widget {
         this._selectable = value;
     }
 
+    get element() {
+        return this._element;
+    }
+
     get selected(): boolean {
         return this._selected;
     }
@@ -109,12 +118,32 @@ export class Widget {
         this.draw();
     }
 
+    get targetContext() {
+        return this._targetContext;
+    }
+
     get container(): boolean {
         return this._container;
     }
 
     set container(value: boolean) {
         this._container = value;
+    }
+
+    get id(): string {
+        return this._id;
+    }
+
+    set id(value: string) {
+        this._id = value;
+    }
+
+    get statusService(): StatusService {
+        return this._statusService;
+    }
+
+    set statusService(value: StatusService) {
+        this._statusService = value;
     }
 
     /**
@@ -124,8 +153,8 @@ export class Widget {
     constructor(parent: Widget) {
         this._parent = parent;
         if (this._parent != null) {
-           this._parent._children.push(this);
-           this._targetContext = this._parent._context;
+            this._parent._children.push(this);
+            this._targetContext = this._parent._context;
         }
         this._element = document.createElement("canvas");
         this._context = this._element.getContext("2d");
@@ -137,6 +166,8 @@ export class Widget {
         });
         this.addProperty(rect);
         this.resize(100, 40);
+
+        this._id = Utils.getUuid();
     }
 
     public addChild(widget: Widget) {
@@ -166,19 +197,19 @@ export class Widget {
         this._properties.push(property);
     }
 
-    private _getGlobalX() {
+    public getGlobalX() {
         const rect: RectProperty = <RectProperty>this.getProperty("Rect");
         if (this.parent != null) {
-            return this.parent._getGlobalX() + rect.x.value;
+            return this.parent.getGlobalX() + rect.x.value;
         } else {
             return rect.x.value;
         }
     }
 
-    private _getGlobalY() {
+    public getGlobalY() {
         const rect: RectProperty = <RectProperty>this.getProperty("Rect");
         if (this.parent != null) {
-            return this.parent._getGlobalY() + rect.y.value;
+            return this.parent.getGlobalY() + rect.y.value;
         } else {
             return rect.y.value;
         }
@@ -226,22 +257,17 @@ export class Widget {
     public _mouseUp(event) {
     }
 
-    public addNewWidget(widget: Widget):boolean {
-        if (!widget) {
-            return false;
-        }
+    public addNewWidget(event, wid: Widget): boolean {
         if (!this.container) {
-            if (this.parent) {
-               const rect: RectProperty = <RectProperty> this.getProperty("Rect");
-               const widRect: RectProperty = <RectProperty> widget.getProperty("Rect");
-                widRect.x.value = rect.x.value + widRect.x.value;
-                widRect.y.value = rect.y.value + widRect.y.value;
-                this.parent.addNewWidget(widget);
-                return true;
+            if (this.parent !== null) {
+                return this.parent.addNewWidget(event, wid);
             }
-            return false;
         }
-        this.addChild(widget);
+        const pos = Utils.getPosition(event, this.id);
+        const rect = <RectProperty>wid.getProperty("Rect");
+        rect.x.value = pos.x - Constant.NEW_ELEMENT_DROP_OFFSET;
+        rect.y.value = pos.y - Constant.NEW_ELEMENT_DROP_OFFSET;
+        this.addChild(wid);
         return true;
     }
 
@@ -265,5 +291,42 @@ export class Widget {
 
     set key(value) {
         this._key = value;
+    }
+
+    public mouseDown(event) {
+        if (event.buttons === 1) {
+            if (this.statusService.status === StatusService.NORMAL) {
+                if (!event.ctrlKey) {
+                    if (this.selectable && !this.selected) {
+                        this.statusService.cleanSelectWidget();
+                        this.statusService.addSelectWidget(this);
+                    }
+                } else {
+                    if (this.selectable) {
+                        if (!this.selected) {
+                            this.statusService.addSelectWidget(this);
+                        } else {
+                            this.statusService.unSelectWidget(this);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public mouseUp(event) {
+        if (this.statusService.status === StatusService.SELECTING) {
+            if (this.parent !== null) {
+                this.parent.mouseUp(event);
+            }
+        }
+    }
+
+    public mouseMove(event) {
+        if (this.statusService.status === StatusService.SELECTING) {
+            if (this.parent !== null) {
+                this.parent.mouseMove(event);
+            }
+        }
     }
 }

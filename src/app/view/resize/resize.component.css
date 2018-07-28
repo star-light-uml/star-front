@@ -9,6 +9,6 @@
 
 .resize-body{
     position: absolute;
-    border: 1px solid #504dc4;
-    cursor: move;
+    background: #504dc4;
+    z-index: 9
 }

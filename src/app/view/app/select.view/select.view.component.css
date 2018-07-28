@@ -1,0 +1,6 @@
+.selecting-view {
+    position: absolute;
+    border: 1px solid #0403f491;
+    background: rgba(6, 245, 202, 0.32);
+    border-radius: 4px;
+}

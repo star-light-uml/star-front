@@ -8,6 +8,7 @@ import {DataWidget} from "../widget/data.widget";
 import {DecisionWidget} from "../widget/decision.widget";
 import {PredefinedProcessWidget} from "../widget/predefined.process.widget";
 import {TerminatorWidget} from "../widget/terminator.widget";
+import {BackgroundWidget} from "../widget/background.widget";
 
 export class DefaultWidgetFactory extends WidgetBaseFactory {
     create(key: string): Widget {
@@ -26,6 +27,8 @@ export class DefaultWidgetFactory extends WidgetBaseFactory {
                 return new PredefinedProcessWidget(null);
             case "terminator":
                 return new TerminatorWidget(null);
+            case "background":
+                return new BackgroundWidget();
             default:
                 return null;
         }

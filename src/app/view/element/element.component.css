@@ -1,6 +1,7 @@
 .element-panel{
     position: relative;
     display: flex;
+    overflow: hidden;
 }
 
 .element-canvas{
