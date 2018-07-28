@@ -30,4 +30,14 @@ export class AppComponent {
             width: (rect.width.value + 40) + "px"
         };
     }
+
+    getSelectWidget() {
+        if (this.statusService.selectWidget.length > 1) {
+            return null;
+        } else if (this.statusService.selectWidget.length === 1) {
+            return this.statusService.selectWidget[0];
+        } else {
+            return this.background;
+        }
+    }
 }

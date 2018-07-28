@@ -1,0 +1,50 @@
+.item-left{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 15px;
+}
+
+.item-right{
+    padding-left: 4px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    border-left:  1px solid #ccc;
+    height: 30px;
+    line-height: 30px;
+}
+
+.item{
+    border-bottom:  1px solid #ccc;
+}
+
+.item-extend{
+    width: 11px;
+    height: 11px;
+    border: 1px solid #444;
+    position: absolute;
+    left: 2px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.extend-h{
+    width: 5px;
+    height: 1px;
+    background: #444;
+    position: absolute;
+    left: 2px;
+    top: 4px;
+}
+
+.extend-v{
+    height: 5px;
+    width: 1px;
+    background: #444;
+    position: absolute;
+    top: 2px;
+    left: 4px;
+}

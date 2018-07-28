@@ -10,7 +10,8 @@
                     </app-element>
                 </div>
             </nz-content>
-            <nz-sider>
+            <nz-sider style="background: #fff; border-left: 1px solid #888" [nzWidth]="250">
+                <app-property-list [widget]="getSelectWidget()"></app-property-list>
             </nz-sider>
         </nz-layout>
     </nz-layout>

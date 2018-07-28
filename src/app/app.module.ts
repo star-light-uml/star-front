@@ -1,15 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
-
 import { AppComponent } from './view/app/app.component';
-import { registerLocaleData } from '@angular/common';
-import zh from '@angular/common/locales/zh';
 import {WidgetService} from "./service/widget.service";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpService} from "./service/http.service";
-import {HttpClientModule} from "@angular/common/http";
 import {MessageComponent} from './view/message/message.component';
 import {MessageService} from "./service/message.service";
 import {WidgetFactoryService} from "./service/widget.factory.service";
@@ -20,6 +11,16 @@ import { WidgetShowComponent } from './view/widget.list/widget.show/widget.show.
 import { ElementComponent } from './view/element/element.component';
 import { ResizeComponent } from './view/resize/resize.component';
 import { SelectViewComponent } from './view/app/select.view/select.view.component';
+import { PropertyListComponent } from './view/property.list/property.list.component';
+import {registerLocaleData} from "@angular/common";
+import {BrowserModule} from "@angular/platform-browser";
+import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HttpClientModule} from "@angular/common/http";
+import {NgModule} from "@angular/core";
+import zh from '@angular/common/locales/zh';
+import {FormsModule} from "@angular/forms";
+import { PropertyListItemComponent } from './view/property.list/property.list.item/property.list.item.component';
 
 registerLocaleData(zh);
 
@@ -31,10 +32,13 @@ registerLocaleData(zh);
         WidgetShowComponent,
         ElementComponent,
         ResizeComponent,
-        SelectViewComponent
+        SelectViewComponent,
+        PropertyListComponent,
+        PropertyListItemComponent
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         NgZorroAntdModule,
         BrowserAnimationsModule,
         HttpClientModule

@@ -1,0 +1,15 @@
+<div nz-row class="item" [ngStyle]="getRowStyle()">
+    <div nz-col nzSpan="10" [ngStyle]="{'padding-left': 15 * level + 'px'}">
+        <div class="item-extend" *ngIf="property.children.length > 0" (click)="extend = !extend">
+            <div class="extend-h"></div>
+            <div *ngIf="!extend" class="extend-v"></div>
+        </div>
+        <span nz-tooltip nzTitle="{{property.name}}" class="item-left">{{property.name}}</span>
+    </div>
+    <div nz-col nzSpan="14" >
+        <div nz-tooltip nzTitle="{{property.showString()}}" class="item-right">{{property.showString()}}</div>
+    </div>
+</div>
+<div *ngIf="extend">
+    <app-property-list-item *ngFor="let pro of property.children; let e = even" [property]="pro" [even]="e" [level]="level + 1"></app-property-list-item>
+</div>
