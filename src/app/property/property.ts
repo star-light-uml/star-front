@@ -47,20 +47,20 @@ export class Property {
                 this._value = value;
                 this._valueChangeListener.forEach((cb) => {
                     if (cb) {
-                        cb(this);
+                        cb(this, this.name);
                     }
                 });
                 if (this._parent) {
-                    this._parent._childValueChange();
+                    this._parent._childValueChange(this);
                 }
             }
         }
     }
 
-    private _childValueChange() {
+    private _childValueChange(property) {
         this._valueChangeListener.forEach((cb) => {
             if (cb) {
-                cb(this);
+                cb(this, property.name);
             }
         });
     }

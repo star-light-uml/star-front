@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Widget} from "../widget/widget";
 import {RectProperty} from "../property/rect.property";
 import {BackgroundWidget} from "../widget/background.widget";
+import {Property} from "../property/property";
 
 @Injectable()
 export class StatusService {
@@ -14,6 +15,8 @@ export class StatusService {
     private _selectWidget: Widget [] = [];
 
     private _status = StatusService.NORMAL;
+
+    private _editingProperty: Property;
 
     get background(): BackgroundWidget {
         return this._background;
@@ -35,7 +38,16 @@ export class StatusService {
         return this._selectWidget;
     }
 
+    get editingProperty(): Property {
+        return this._editingProperty;
+    }
+
+    set editingProperty(value: Property) {
+        this._editingProperty = value;
+    }
+
     addSelectWidget(widget: Widget) {
+        this.editingProperty = null;
         if (!widget || !widget.selectable || this._selectWidget.indexOf(widget) >= 0) {
             return;
         }
@@ -44,6 +56,7 @@ export class StatusService {
     }
 
     cleanSelectWidget() {
+        this.editingProperty = null;
         this.selectWidget.forEach((wid) => {
             wid.selected = false;
         });
@@ -51,6 +64,7 @@ export class StatusService {
     }
 
     unSelectWidget(widget: Widget) {
+        this.editingProperty = null;
         if (!widget) {
             return;
         }

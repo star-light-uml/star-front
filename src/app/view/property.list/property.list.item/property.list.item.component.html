@@ -7,7 +7,10 @@
         <span nz-tooltip nzTitle="{{property.name}}" class="item-left">{{property.name}}</span>
     </div>
     <div nz-col nzSpan="14" >
-        <div nz-tooltip nzTitle="{{property.showString()}}" class="item-right">{{property.showString()}}</div>
+        <div nz-tooltip nzTitle="{{property.showString()}}" class="item-right" (click)="click()">{{property.showString()}}</div>
+        <div class="editor-panel">
+            <ng-template #editor></ng-template>
+        </div>
     </div>
 </div>
 <div *ngIf="extend">

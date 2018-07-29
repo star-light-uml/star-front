@@ -161,9 +161,6 @@ export class Widget {
 
         const rect = new RectProperty();
         rect.name = "Rect";
-        rect.listener((p) => {
-            this.properChange(p);
-        });
         this.addProperty(rect);
         this.resize(100, 40);
 
@@ -195,6 +192,9 @@ export class Widget {
         }
         this._name2Property[property.name] = property;
         this._properties.push(property);
+        property.listener((property, key) => {
+            this.properChange(property, key);
+        });
     }
 
     public getGlobalX() {
@@ -271,8 +271,8 @@ export class Widget {
         return true;
     }
 
-    properChange(property: Property) {
-        if (property.name === "Rect") {
+    properChange(property: Property, key: string) {
+        if (property.name === "Rect" && (key === "width" || key === "height")) {
             this.rectChange(<RectProperty>property);
         }
     }
@@ -281,6 +281,7 @@ export class Widget {
         if (this._targetContext) {
             this._targetContext.canvas.width = rect.width.value;
             this._targetContext.canvas.height = rect.height.value;
+            this.resize(rect.width.value, rect.height.value);
         }
     }
 

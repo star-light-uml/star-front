@@ -1,16 +1,20 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ComponentFactoryResolver, DoCheck, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {Property} from "../../../property/property";
+import {PropertyEditorService} from "../../../property/editor/property.editor.service";
+import {StatusService} from "../../../service/status.service";
 
 @Component({
     selector: 'app-property-list-item',
     templateUrl: './property.list.item.component.html',
     styleUrls: ['./property.list.item.component.css']
 })
-export class PropertyListItemComponent implements OnInit {
+export class PropertyListItemComponent implements OnInit, DoCheck {
     @Input("property") property: Property;
     @Input("level") level = 0;
     @Input("even") even = false;
     extend = false;
+    private componentRef = null;
+    @ViewChild("editor", { read: ViewContainerRef }) container: ViewContainerRef;
 
     backgroundColorList = [
         {
@@ -27,7 +31,8 @@ export class PropertyListItemComponent implements OnInit {
         }
     ];
 
-    constructor() { }
+    constructor(private resolver: ComponentFactoryResolver, private editorFactory: PropertyEditorService,
+                private statusService: StatusService) { }
 
     ngOnInit() {
     }
@@ -37,5 +42,30 @@ export class PropertyListItemComponent implements OnInit {
         return {
             "background": this.even ? this.backgroundColorList[t].dark : this.backgroundColorList[t].light
         };
+    }
+
+    click() {
+        if (!this.property.editable) {
+            return;
+        }
+        this.container.clear();
+        const type = this.editorFactory.getComponent(this.property.editorKey);
+        if (type === null) {
+            return;
+        }
+        const factory =
+            this.resolver.resolveComponentFactory(type);
+        this.componentRef = this.container.createComponent(factory);
+        this.componentRef.instance.property = this.property;
+        this.statusService.editingProperty = this.property;
+    }
+
+    ngDoCheck() {
+        if (this.container && this.componentRef) {
+            if (!this.property.editable || this.statusService.editingProperty !== this.property) {
+                this.container.clear();
+                this.componentRef = null;
+            }
+        }
     }
 }

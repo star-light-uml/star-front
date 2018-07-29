@@ -12,16 +12,16 @@ export class RectProperty extends Property {
         super();
         this._x.name = "x";
         this._x.value = 0;
-        this.children.push(this._x);
+        this.addChildren(this._x);
         this._y.name = "y";
         this._y.value = 0;
-        this.children.push(this._y);
+        this.addChildren(this._y);
         this._width.name = "width";
         this._width.value = 100;
-        this.children.push(this._width);
+        this.addChildren(this._width);
         this._height.name = "height";
         this._height.value = 100;
-        this.children.push(this._height);
+        this.addChildren(this._height);
     }
 
     public showString(): string {

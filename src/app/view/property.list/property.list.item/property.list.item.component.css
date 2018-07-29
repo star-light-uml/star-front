@@ -48,3 +48,12 @@
     top: 2px;
     left: 4px;
 }
+
+.editor-panel{
+    position: absolute;
+    height: 30px;
+    top: 0;
+    background: #fff;
+    left: 1px;
+    overflow: hidden;
+}

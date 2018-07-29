@@ -21,6 +21,8 @@ import {NgModule} from "@angular/core";
 import zh from '@angular/common/locales/zh';
 import {FormsModule} from "@angular/forms";
 import { PropertyListItemComponent } from './view/property.list/property.list.item/property.list.item.component';
+import { NumberPropertyEditorComponent } from './property/editor/number.property.editor/number.property.editor.component';
+import {PropertyEditorService} from "./property/editor/property.editor.service";
 
 registerLocaleData(zh);
 
@@ -34,7 +36,8 @@ registerLocaleData(zh);
         ResizeComponent,
         SelectViewComponent,
         PropertyListComponent,
-        PropertyListItemComponent
+        PropertyListItemComponent,
+        NumberPropertyEditorComponent
     ],
     imports: [
         BrowserModule,
@@ -50,8 +53,10 @@ registerLocaleData(zh);
         MessageService,
         WidgetFactoryService,
         ProjectService,
-        StatusService
+        StatusService,
+        PropertyEditorService
         ],
+    entryComponents: [NumberPropertyEditorComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

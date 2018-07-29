@@ -14,6 +14,11 @@ export class BackgroundWidget extends Widget {
         this.selectable = false;
         this.key = "background";
         this.resize(1501, 811);
+
+        const rect = <RectProperty>this.getProperty("Rect");
+
+        rect.x.editable = false;
+        rect.y.editable = false;
     }
 
     get startPoint(): Point {
