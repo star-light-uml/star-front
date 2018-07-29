@@ -1,3 +1,6 @@
-<div>
+<div *ngIf="widget">
     <app-property-list-item *ngFor="let property of widget.properties, let e = even" [property]="property" [level]="0" [even]="e"></app-property-list-item>
+</div>
+<div *ngIf="!widget">
+    <div class="editor-disable">Can not edit properties</div>
 </div>
