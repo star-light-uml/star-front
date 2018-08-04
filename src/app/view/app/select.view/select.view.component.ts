@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Point} from "../../../base/point";
 import {StatusService} from "../../../service/status.service";
+import {Utils} from "../../../util/utils";
 
 @Component({
     selector: 'app-select-view',

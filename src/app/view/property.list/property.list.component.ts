@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Widget} from "../../widget/widget";
+import {StatusService} from "../../service/status.service";
 
 @Component({
     selector: 'app-property-list',
@@ -10,7 +11,7 @@ export class PropertyListComponent implements OnInit {
 
     @Input("widget") widget: Widget;
 
-    constructor() { }
+    constructor(private statusService: StatusService) { }
 
     ngOnInit() {
     }

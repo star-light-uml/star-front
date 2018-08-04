@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StatusService} from "../../service/status.service";
 import {WidgetFactoryService} from "../../service/widget.factory.service";
+import {Utils} from "../../util/utils";
 
 @Component({
     selector: 'app-resize',
@@ -96,19 +97,18 @@ export class ResizeComponent implements OnInit {
     }
 
     mouseDown(event) {
-
+        const pt = Utils.getPosition(event, this.statusService.background.id);
+        const rect = this.statusService.getSelectRect();
+        this.statusService.moveClickPoint.x = pt.x - rect.left;
+        this.statusService.moveClickPoint.y = pt.y - rect.top;
+        this.statusService.status = StatusService.MOVING;
     }
 
     mouseUp(event) {
-        if (this.statusService.status === StatusService.SELECTING) {
-            this.statusService.background.mouseUp(event);
-        }
+        this.statusService.status = StatusService.NORMAL;
     }
 
     mouseMove(event) {
-        if (this.statusService.status === StatusService.SELECTING) {
-            this.statusService.background.mouseMove(event);
-        }
-
+        this.statusService.background.mouseMove(event);
     }
 }

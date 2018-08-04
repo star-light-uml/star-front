@@ -3,12 +3,17 @@ import {Widget} from "../widget/widget";
 import {RectProperty} from "../property/rect.property";
 import {BackgroundWidget} from "../widget/background.widget";
 import {Property} from "../property/property";
+import {Point} from "../base/point";
 
 @Injectable()
 export class StatusService {
     public static NORMAL = "normal";
     public static SELECTING = "selecting";
     public static RESIZE = "resize";
+
+    public static MOVING = "moving";
+
+    private _moveClickPoint: Point = new Point();
 
     private _background: BackgroundWidget;
 
@@ -44,6 +49,14 @@ export class StatusService {
 
     set editingProperty(value: Property) {
         this._editingProperty = value;
+    }
+
+    get moveClickPoint(): Point {
+        return this._moveClickPoint;
+    }
+
+    set moveClickPoint(value: Point) {
+        this._moveClickPoint = value;
     }
 
     addSelectWidget(widget: Widget) {

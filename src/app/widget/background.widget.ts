@@ -72,6 +72,7 @@ export class BackgroundWidget extends Widget {
     }
 
     public mouseUp(event) {
+        super.mouseUp(event);
         if (this.statusService.status === StatusService.NORMAL
         || this.statusService.status === StatusService.SELECTING) {
             if (!event.ctrlKey) {
@@ -94,8 +95,44 @@ export class BackgroundWidget extends Widget {
     }
 
     public mouseMove(event) {
+        super.mouseMove(event);
         if (this.statusService.status === StatusService.SELECTING) {
             this._endPoint = Utils.getPosition(event, this.id);
+            if (event.buttons !== 1) {
+                this.mouseUp(event);
+            }
+        } else if (this.statusService.status === StatusService.MOVING) {
+            if (event.buttons !== 1) {
+                this.mouseUp(event);
+            } else {
+                const pos = Utils.getPosition(event, this.id);
+                const pt = {
+                    x: pos.x - this.statusService.moveClickPoint.x,
+                    y: pos.y - this.statusService.moveClickPoint.y
+                };
+
+                const rect = this.statusService.getSelectRect();
+                const bRect = <RectProperty>this.statusService.background.getProperty("Rect");
+                if (pt.x < 0) {
+                    pt.x = 0;
+                }
+                if ( pt.y < 0) {
+                    pt.y = 0;
+                }
+                if (pt.x + rect.right - rect.left > bRect.width.value) {
+                    pt.x = bRect.width.value - (rect.right - rect.left);
+                }
+                if (pt.y + rect.bottom - rect.top > bRect.height.value) {
+                    pt.y = bRect.height.value - (rect.bottom - rect.top);
+                }
+                const dx = pt.x - rect.left;
+                const dy = pt.y - rect.top;
+                this.statusService.selectWidget.forEach((wid) => {
+                    const r = <RectProperty>wid.getProperty("Rect");
+                    r.x.value += dx;
+                    r.y.value += dy;
+                });
+            }
         }
     }
 

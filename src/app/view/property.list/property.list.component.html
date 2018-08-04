@@ -1,4 +1,4 @@
-<div *ngIf="widget">
+<div *ngIf="widget" draggable="false">
     <app-property-list-item *ngFor="let property of widget.properties, let e = even" [property]="property" [level]="0" [even]="e"></app-property-list-item>
 </div>
 <div *ngIf="!widget">

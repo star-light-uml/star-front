@@ -254,9 +254,6 @@ export class Widget {
         }
     }
 
-    public _mouseUp(event) {
-    }
-
     public addNewWidget(event, wid: Widget): boolean {
         if (!this.container) {
             if (this.parent !== null) {
@@ -311,6 +308,11 @@ export class Widget {
                         }
                     }
                 }
+                const pt = Utils.getPosition(event, this.statusService.background.id);
+                const rect = this.statusService.getSelectRect();
+                this.statusService.moveClickPoint.x = pt.x - rect.left;
+                this.statusService.moveClickPoint.y = pt.y - rect.top;
+                this.statusService.status = StatusService.MOVING;
             }
         }
     }
@@ -320,11 +322,14 @@ export class Widget {
             if (this.parent !== null) {
                 this.parent.mouseUp(event);
             }
+        } else if (this.statusService.status === StatusService.MOVING) {
+            this.statusService.status = StatusService.NORMAL;
         }
     }
 
     public mouseMove(event) {
-        if (this.statusService.status === StatusService.SELECTING) {
+        if (this.statusService.status === StatusService.SELECTING ||
+            this.statusService.status === StatusService.MOVING) {
             if (this.parent !== null) {
                 this.parent.mouseMove(event);
             }

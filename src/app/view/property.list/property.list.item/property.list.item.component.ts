@@ -44,7 +44,8 @@ export class PropertyListItemComponent implements OnInit, DoCheck {
         };
     }
 
-    click() {
+    click(event) {
+        this.statusService.editingProperty = null;
         if (!this.property.editable) {
             return;
         }
@@ -58,6 +59,7 @@ export class PropertyListItemComponent implements OnInit, DoCheck {
         this.componentRef = this.container.createComponent(factory);
         this.componentRef.instance.property = this.property;
         this.statusService.editingProperty = this.property;
+        event.cancelBubble = true;
     }
 
     ngDoCheck() {
