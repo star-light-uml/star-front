@@ -72,7 +72,6 @@ export class BackgroundWidget extends Widget {
     }
 
     public mouseUp(event) {
-        super.mouseUp(event);
         if (this.statusService.status === StatusService.NORMAL
         || this.statusService.status === StatusService.SELECTING) {
             if (!event.ctrlKey) {
@@ -92,6 +91,7 @@ export class BackgroundWidget extends Widget {
                 this.select(wid, lt, rb);
             });
         }
+        super.mouseUp(event);
     }
 
     public mouseMove(event) {
@@ -133,6 +133,13 @@ export class BackgroundWidget extends Widget {
                     r.y.value += dy;
                 });
             }
+        } else if (this.statusService.status === StatusService.RESIZING) {
+            if (event.buttons !== 1) {
+                this.statusService.status = StatusService.NORMAL;
+            } else {
+                const pt = Utils.getPosition(event, this.id);
+                this._resize(pt, this.statusService.resizeType);
+            }
         }
     }
 
@@ -154,5 +161,58 @@ export class BackgroundWidget extends Widget {
                 this.select(w, lt, rb);
             });
         }
+    }
+
+    private _resize(pt: Point, type: string) {
+        const dx = pt.x - this.statusService.resizeStartPoint.x;
+        const dy = pt.y - this.statusService.resizeStartPoint.y;
+        const r = this.statusService.resizeStartRect;
+
+        let _dx, _dy;
+        if (type === 'lb' || type === 'lt') {
+            _dx = 1 - dx / (this.statusService.resizeStartRect.right - this.statusService.resizeStartRect.left);
+        } else {
+            _dx = 1 + dx / (this.statusService.resizeStartRect.right - this.statusService.resizeStartRect.left);
+        }
+        if (type === 'lt' || type === 'rt') {
+            _dy = 1 - dy / (this.statusService.resizeStartRect.bottom - this.statusService.resizeStartRect.top);
+        } else {
+            _dy = 1 + dy / (this.statusService.resizeStartRect.bottom - this.statusService.resizeStartRect.top);
+        }
+        this.statusService.selectWidget.forEach((wid) => {
+            const rect = <RectProperty>wid.getProperty("Rect");
+            let temp = rect.width.min / wid.resizeStartRect.width;
+            if (temp > _dx) {
+                _dx = temp;
+            }
+            temp = rect.width.max / wid.resizeStartRect.width;
+            if (temp < _dx) {
+                _dx = temp;
+            }
+            temp = rect.height.min / wid.resizeStartRect.height;
+            if ( temp > _dy) {
+                _dy = temp;
+            }
+            temp = rect.height.max / wid.resizeStartRect.height;
+            if (temp < _dy) {
+                _dy = temp;
+            }
+        });
+        this.statusService.selectWidget.forEach((wid) => {
+            wid.resize(wid.resizeStartRect.width * _dx, wid.resizeStartRect.height * _dy);
+            const rect = <RectProperty>wid.getProperty("Rect");
+            if (type === 'lb' || type === 'lt') {
+                rect.x.value = r.left + (1 - _dx) * (this.statusService.resizeStartRect.right - this.statusService.resizeStartRect.left)
+                    + (wid.resizeStartRect.x - r.left) * _dx;
+            } else {
+                rect.x.value = r.left + (wid.resizeStartRect.x - this.statusService.resizeStartRect.left) * _dx;
+            }
+            if (type === 'lt' || type === 'rt') {
+                rect.y.value = r.top + (1 - _dy) * (this.statusService.resizeStartRect.bottom - this.statusService.resizeStartRect.top)
+                    + (wid.resizeStartRect.y - r.top) * _dy;
+            } else {
+                rect.y.value = r.top + (wid.resizeStartRect.y - this.statusService.resizeStartRect.top) * _dy;
+            }
+        });
     }
 }

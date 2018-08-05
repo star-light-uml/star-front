@@ -9,7 +9,7 @@ import {Point} from "../base/point";
 export class StatusService {
     public static NORMAL = "normal";
     public static SELECTING = "selecting";
-    public static RESIZE = "resize";
+    public static RESIZING = "resizing";
 
     public static MOVING = "moving";
 
@@ -22,6 +22,36 @@ export class StatusService {
     private _status = StatusService.NORMAL;
 
     private _editingProperty: Property;
+
+    private _resizeType;
+
+    private _resizeStartPoint: Point;
+
+    private _resizeStartRect;
+
+    get resizeStartRect() {
+        return this._resizeStartRect;
+    }
+
+    set resizeStartRect(value) {
+        this._resizeStartRect = value;
+    }
+
+    get resizeStartPoint(): Point {
+        return this._resizeStartPoint;
+    }
+
+    set resizeStartPoint(value: Point) {
+        this._resizeStartPoint = value;
+    }
+
+    get resizeType() {
+        return this._resizeType;
+    }
+
+    set resizeType(value) {
+        this._resizeType = value;
+    }
 
     get background(): BackgroundWidget {
         return this._background;

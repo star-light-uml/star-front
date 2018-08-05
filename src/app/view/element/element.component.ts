@@ -4,6 +4,7 @@ import {RectProperty} from "../../property/rect.property";
 import {StatusService} from "../../service/status.service";
 import {WidgetFactoryService} from "../../service/widget.factory.service";
 import {Point} from "../../base/point";
+import {Utils} from "../../util/utils";
 
 @Component({
     selector: 'app-element',
@@ -43,10 +44,16 @@ export class ElementComponent implements OnInit, AfterViewInit {
 
     getPanelStyle() {
         const rect: RectProperty = <RectProperty> this.widget.getProperty("Rect");
-        return {
+        const result =  {
             "height": rect.height.value + "px",
             "width": rect.width.value + "px"
         };
+
+        if (this.statusService.status === StatusService.RESIZING) {
+            result["cursor"] = Utils.getResizeCursor(this.statusService.resizeType);
+        }
+
+        return result;
     }
 
     mouseDown(event) {

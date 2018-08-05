@@ -5,9 +5,9 @@
     <div class="resize-body" [ngStyle]="getBodyStyle('t')"></div>
     <div class="resize-body" [ngStyle]="getBodyStyle('r')"></div>
     <div class="resize-body" [ngStyle]="getBodyStyle('b')"></div>
-    <div class="resize-item" [ngStyle]="getStyle('lt')"></div>
-    <div class="resize-item" [ngStyle]="getStyle('rt')"></div>
-    <div class="resize-item" [ngStyle]="getStyle('lb')"></div>
-    <div class="resize-item" [ngStyle]="getStyle('rb')"></div>
+    <div class="resize-item" [ngStyle]="getStyle('lt')" (mousedown)="itemMouseDown($event, 'lt')"></div>
+    <div class="resize-item" [ngStyle]="getStyle('rt')" (mousedown)="itemMouseDown($event, 'rt')"></div>
+    <div class="resize-item" [ngStyle]="getStyle('lb')" (mousedown)="itemMouseDown($event, 'lb')"></div>
+    <div class="resize-item" [ngStyle]="getStyle('rb')" (mousedown)="itemMouseDown($event, 'rb')"></div>
 </div>
 

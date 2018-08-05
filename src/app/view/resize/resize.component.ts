@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {StatusService} from "../../service/status.service";
 import {WidgetFactoryService} from "../../service/widget.factory.service";
 import {Utils} from "../../util/utils";
+import {Point} from "../../base/point";
+import {RectProperty} from "../../property/rect.property";
 
 @Component({
     selector: 'app-resize',
@@ -24,22 +26,19 @@ export class ResizeComponent implements OnInit {
 
     getStyle(key: string): any {
         const result = {};
+        result["cursor"] = Utils.getResizeCursor(key);
         if (key === "lt") {
             result["left"] =  "-4px";
             result["top"] =  "-4px";
-            result["cursor"] = "nw-resize";
         } else if (key === "rt") {
             result["left"] = (this.rect.right - this.rect.left - 5) + "px";
             result["top"] = "-4px";
-            result["cursor"] = "ne-resize";
         } else if (key === "lb") {
             result["left"] = "-4px";
             result["top"] = (this.rect.bottom - this.rect.top - 5) + "px";
-            result["cursor"] = "ne-resize";
         } else if (key === "rb") {
             result["left"] = (this.rect.right - this.rect.left - 5) + "px";
             result["top"] = (this.rect.bottom - this.rect.top - 5) + "px";
-            result["cursor"] = "nw-resize";
         }
         return result;
     }
@@ -105,10 +104,27 @@ export class ResizeComponent implements OnInit {
     }
 
     mouseUp(event) {
-        this.statusService.status = StatusService.NORMAL;
+        this.statusService.background.mouseUp(event);
     }
 
     mouseMove(event) {
         this.statusService.background.mouseMove(event);
+    }
+
+    itemMouseDown(event, type) {
+        this.statusService.status = StatusService.RESIZING;
+        this.statusService.resizeType = type;
+        this.statusService.resizeStartPoint = Utils.getPosition(event, this.statusService.background.id);
+        this.statusService.resizeStartRect = this.statusService.getSelectRect();
+        this.statusService.selectWidget.forEach((wid) => {
+            const rect = <RectProperty>wid.getProperty("Rect");
+            wid.resizeStartRect = {
+                x: rect.x.value,
+                y: rect.y.value,
+                width: rect.width.value,
+                height: rect.height.value
+            };
+        });
+        event.cancelBubble = true;
     }
 }

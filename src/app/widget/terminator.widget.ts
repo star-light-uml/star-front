@@ -12,14 +12,21 @@ export class TerminatorWidget extends Widget {
         this._context.strokeStyle = "#404040";
         this._context.moveTo(1 + height / 2 , 1);
         this._context.arcTo(width, 1, width, height / 2 + 1, height / 2);
-        this._context.arcTo(width, height, width - height / 2, height, height / 2);
-        this._context.arcTo(1, height, 1, height / 2, height / 2);
+        this._context.arcTo(width, height - 1, width - height / 2, height, height / 2);
+        this._context.arcTo(1, height - 1, 1, height / 2, height / 2);
         this._context.arcTo(1, 1, height / 2, 1, height / 2);
         this._context.fillStyle = "#fff";
         this._context.fill();
         this._context.lineWidth = 2;
         this._context.stroke();
         this._context.closePath();
+    }
+
+    public fixRect() {
+        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
+        rect.height.min = 20;
+        rect.width.min = rect.height.value;
+        rect.height.max = rect.width.value;
     }
 
     calcLinePoint() {

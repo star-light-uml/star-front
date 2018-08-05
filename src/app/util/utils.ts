@@ -35,4 +35,16 @@ export class Utils {
         });
         return uuid;
     }
+
+    public static getResizeCursor(type: string): string {
+        switch (type) {
+            case "lt":
+            case "rb":
+                return "nw-resize";
+            case "rt":
+            case "lb":
+                return "ne-resize";
+        }
+        return "default";
+    }
 }

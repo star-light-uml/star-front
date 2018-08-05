@@ -69,6 +69,16 @@ export class Widget {
 
     private _key;
 
+    private _resizeStartRect;
+
+    get resizeStartRect() {
+        return this._resizeStartRect;
+    }
+
+    set resizeStartRect(value) {
+        this._resizeStartRect = value;
+    }
+
     /**
      * 是否是容器
      */
@@ -177,6 +187,7 @@ export class Widget {
         this.resize(100, 40);
 
         this._id = Utils.getUuid();
+        this.fixRect();
         this.calcLinePoint();
     }
 
@@ -251,12 +262,13 @@ export class Widget {
     }
 
     public resize(width: number, height: number) {
+        this.fixRect();
         const rect: RectProperty = <RectProperty>this.getProperty("Rect");
         rect.width.value = width;
         rect.height.value = height;
         const ratio = window.devicePixelRatio || 1;
-        width = width * ratio;
-        height = height * ratio;
+        width = rect.width.value * ratio;
+        height = rect.height.value * ratio;
         this._element.style.width = width + "px";
         this._element.style.height = height + "px";
         this._element.height = height;
@@ -266,6 +278,12 @@ export class Widget {
         if (this._targetContext) {
             this.draw();
         }
+    }
+
+    public fixRect() {
+        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
+        rect.height.min = 20;
+        rect.width.min = 40;
     }
 
     public addNewWidget(event, wid: Widget): boolean {
@@ -336,14 +354,17 @@ export class Widget {
             if (this.parent !== null) {
                 this.parent.mouseUp(event);
             }
-        } else if (this.statusService.status === StatusService.MOVING) {
+        } else if (this.statusService.status === StatusService.MOVING ||
+            this.statusService.status === StatusService.RESIZING) {
             this.statusService.status = StatusService.NORMAL;
         }
     }
 
     public mouseMove(event) {
         if (this.statusService.status === StatusService.SELECTING ||
-            this.statusService.status === StatusService.MOVING) {
+            this.statusService.status === StatusService.MOVING ||
+            this.statusService.status === StatusService.RESIZING
+        ) {
             if (this.parent !== null) {
                 this.parent.mouseMove(event);
             }

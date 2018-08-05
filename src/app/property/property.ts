@@ -37,11 +37,15 @@ export class Property {
 
     private _parent: Property;
 
-    get value(): any {
+    public get value(): any {
         return this._value;
     }
 
-    set value(value: any) {
+    public set value(value: any) {
+        this.changeValue(value);
+    }
+
+    protected changeValue(value: any) {
         if (this.editable) {
             if (this._value !== value) {
                 this._value = value;
