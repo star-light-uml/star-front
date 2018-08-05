@@ -3,6 +3,7 @@ import {Widget} from "../../widget/widget";
 import {RectProperty} from "../../property/rect.property";
 import {StatusService} from "../../service/status.service";
 import {WidgetFactoryService} from "../../service/widget.factory.service";
+import {Point} from "../../base/point";
 
 @Component({
     selector: 'app-element',
@@ -14,6 +15,8 @@ export class ElementComponent implements OnInit, AfterViewInit {
     @Input("widget") widget: Widget;
 
     @ViewChild("canvas") canvas: ElementRef;
+
+    showLinePoint = false;
 
     constructor(public statusService: StatusService, public widgetFactory: WidgetFactoryService) {
 
@@ -30,13 +33,20 @@ export class ElementComponent implements OnInit, AfterViewInit {
 
     getStyle() {
         const rect: RectProperty = <RectProperty> this.widget.getProperty("Rect");
-        const style =  {
+        return {
             "left": rect.x.value + "px",
             "top": rect.y.value + "px",
             "height": rect.height.value + "px",
             "width": rect.width.value + "px"
         };
-        return style;
+    }
+
+    getPanelStyle() {
+        const rect: RectProperty = <RectProperty> this.widget.getProperty("Rect");
+        return {
+            "height": rect.height.value + "px",
+            "width": rect.width.value + "px"
+        };
     }
 
     mouseDown(event) {

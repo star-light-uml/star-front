@@ -103,7 +103,7 @@ export class BackgroundWidget extends Widget {
             }
         } else if (this.statusService.status === StatusService.MOVING) {
             if (event.buttons !== 1) {
-                this.mouseUp(event);
+                this.statusService.status = StatusService.NORMAL;
             } else {
                 const pos = Utils.getPosition(event, this.id);
                 const pt = {

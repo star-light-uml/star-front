@@ -23,6 +23,7 @@ import {FormsModule} from "@angular/forms";
 import { PropertyListItemComponent } from './view/property.list/property.list.item/property.list.item.component';
 import { NumberPropertyEditorComponent } from './property/editor/number.property.editor/number.property.editor.component';
 import {PropertyEditorService} from "./property/editor/property.editor.service";
+import { LinePointComponent } from './view/element/line.point/line.point.component';
 
 registerLocaleData(zh);
 
@@ -37,7 +38,8 @@ registerLocaleData(zh);
         SelectViewComponent,
         PropertyListComponent,
         PropertyListItemComponent,
-        NumberPropertyEditorComponent
+        NumberPropertyEditorComponent,
+        LinePointComponent
     ],
     imports: [
         BrowserModule,

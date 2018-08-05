@@ -1,7 +1,7 @@
 .resize-item{
     width: 9px;
     height: 9px;
-    border: 1px solid #504dc4;
+    border: 1px solid #883333;
     position: absolute;
     background: #fff;
     z-index: 9;
@@ -9,6 +9,6 @@
 
 .resize-body{
     position: absolute;
-    background: #504dc4;
+    background: #883333;
     z-index: 9
 }

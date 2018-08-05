@@ -1,5 +1,6 @@
 import {Widget} from "./widget";
 import {RectProperty} from "../property/rect.property";
+import {Point} from "../base/point";
 
 export class ProcessWidget extends Widget {
     constructor(parent: Widget) {
@@ -20,5 +21,14 @@ export class ProcessWidget extends Widget {
         this._context.lineWidth = 2;
         this._context.stroke();
         this._context.closePath();
+    }
+
+    calcLinePoint() {
+        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
+        this.pointList = [];
+        this.pointList.push(new Point(0, rect.height.value / 2 - 1));
+        this.pointList.push(new Point(rect.width.value / 2 - 1, 0));
+        this.pointList.push(new Point(rect.width.value / 2 - 1, rect.height.value - 2));
+        this.pointList.push(new Point(rect.width.value - 2, rect.height.value / 2 - 1));
     }
 }

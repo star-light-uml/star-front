@@ -3,6 +3,7 @@ import {RectProperty} from "../property/rect.property";
 import {Utils} from "../util/utils";
 import {Constant} from "../service/constant";
 import {StatusService} from "../service/status.service";
+import {Point} from "../base/point";
 
 export class Widget {
     private _id = "";
@@ -61,6 +62,9 @@ export class Widget {
      */
     private _targetContext;
 
+
+    private _pointList: Point [] = [];
+
     private _statusService: StatusService;
 
     private _key;
@@ -89,6 +93,14 @@ export class Widget {
 
     set parent(value: Widget) {
         this._parent = value;
+    }
+
+    get pointList(): Point[] {
+        return this._pointList;
+    }
+
+    set pointList(value: Point[]) {
+        this._pointList = value;
     }
 
     get selectable(): boolean {
@@ -165,6 +177,7 @@ export class Widget {
         this.resize(100, 40);
 
         this._id = Utils.getUuid();
+        this.calcLinePoint();
     }
 
     public addChild(widget: Widget) {
@@ -249,6 +262,7 @@ export class Widget {
         this._element.height = height;
         this._element.width = width ;
         this._context.scale(ratio, ratio);
+        this.calcLinePoint();
         if (this._targetContext) {
             this.draw();
         }
@@ -334,5 +348,9 @@ export class Widget {
                 this.parent.mouseMove(event);
             }
         }
+    }
+
+    calcLinePoint() {
+
     }
 }
