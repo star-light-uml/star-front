@@ -4,13 +4,14 @@ import {RectProperty} from "../property/rect.property";
 import {BackgroundWidget} from "../widget/background.widget";
 import {Property} from "../property/property";
 import {Point} from "../base/point";
+import {Line} from "../base/line";
 
 @Injectable()
 export class StatusService {
     public static NORMAL = "normal";
     public static SELECTING = "selecting";
     public static RESIZING = "resizing";
-
+    public static LINING = "lining";
     public static MOVING = "moving";
 
     private _moveClickPoint: Point = new Point();
@@ -28,6 +29,18 @@ export class StatusService {
     private _resizeStartPoint: Point;
 
     private _resizeStartRect;
+
+    private _lines: Line [] = [];
+
+    private _currentLine: Line;
+
+    get currentLine(): Line {
+        return this._currentLine;
+    }
+
+    set currentLine(value: Line) {
+        this._currentLine = value;
+    }
 
     get resizeStartRect() {
         return this._resizeStartRect;
@@ -89,6 +102,14 @@ export class StatusService {
         this._moveClickPoint = value;
     }
 
+    get lines(): Line[] {
+        return this._lines;
+    }
+
+    set lines(value: Line[]) {
+        this._lines = value;
+    }
+
     addSelectWidget(widget: Widget) {
         this.editingProperty = null;
         if (!widget || !widget.selectable || this._selectWidget.indexOf(widget) >= 0) {
@@ -114,6 +135,10 @@ export class StatusService {
         widget.selected = false;
         const index = this._selectWidget.indexOf(widget);
         this._selectWidget.splice(index, 1);
+    }
+
+    addLine(line: Line) {
+        this.lines.push(line);
     }
 
     getSelectRect() {

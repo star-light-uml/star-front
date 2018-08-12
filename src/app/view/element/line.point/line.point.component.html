@@ -1,1 +1,5 @@
-<div class="line-point" [ngStyle]="getStyle()"></div>
+<div class="line-point" [ngStyle]="getStyle()" (mouseleave)="mouseLeave()"
+     (mouseenter)="mouseEnter()"  (mousedown)="mouseDown($event)"
+>
+    <app-line-point-arrow *ngIf="showArrow" [type]="type"></app-line-point-arrow>
+</div>

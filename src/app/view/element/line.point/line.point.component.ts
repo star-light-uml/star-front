@@ -1,5 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Point} from "../../../base/point";
+import {StatusService} from "../../../service/status.service";
+import {Utils} from "../../../util/utils";
+import {Line} from "../../../base/line";
 
 @Component({
     selector: 'app-line-point',
@@ -10,7 +13,13 @@ export class LinePointComponent implements OnInit {
 
     @Input("point") point: Point;
 
-    constructor() { }
+    @Input("type") type: string;
+
+    @Output("mouseOn") mouseOn = new EventEmitter();
+
+    showArrow = false;
+
+    constructor(private statusService: StatusService) { }
 
     ngOnInit() {
     }
@@ -20,5 +29,24 @@ export class LinePointComponent implements OnInit {
             "left": (this.point.x - 3) + "px",
             "top": (this.point.y - 3) + "px"
         };
+    }
+
+    mouseDown(event) {
+        const point = Utils.getPosition(event, this.statusService.background.id);
+        const line = new Line(point);
+        this.statusService.addLine(line);
+        this.statusService.currentLine = line;
+
+        this.statusService.status = StatusService.LINING;
+    }
+
+    mouseEnter() {
+        this.mouseOn.emit(true);
+        this.showArrow = true;
+    }
+
+    mouseLeave() {
+        this.mouseOn.emit(false);
+        this.showArrow = false;
     }
 }

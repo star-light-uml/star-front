@@ -24,6 +24,9 @@ import { PropertyListItemComponent } from './view/property.list/property.list.it
 import { NumberPropertyEditorComponent } from './property/editor/number.property.editor/number.property.editor.component';
 import {PropertyEditorService} from "./property/editor/property.editor.service";
 import { LinePointComponent } from './view/element/line.point/line.point.component';
+import { LineComponent } from './view/line/line.component';
+import { LineItemComponent } from './view/line/line.item/line.item.component';
+import { LinePointArrowComponent } from './view/element/line.point/line.point.arrow/line.point.arrow.component';
 
 registerLocaleData(zh);
 
@@ -39,7 +42,10 @@ registerLocaleData(zh);
         PropertyListComponent,
         PropertyListItemComponent,
         NumberPropertyEditorComponent,
-        LinePointComponent
+        LinePointComponent,
+        LineComponent,
+        LineItemComponent,
+        LinePointArrowComponent
     ],
     imports: [
         BrowserModule,

@@ -3,6 +3,7 @@ import {RectProperty} from "../property/rect.property";
 import {Point} from "../base/point";
 import {Utils} from "../util/utils";
 import {StatusService} from "../service/status.service";
+import {Line} from "../base/line";
 
 export class BackgroundWidget extends Widget {
     private _startPoint: Point;
@@ -214,5 +215,9 @@ export class BackgroundWidget extends Widget {
                 rect.y.value = r.top + (wid.resizeStartRect.y - this.statusService.resizeStartRect.top) * _dy;
             }
         });
+    }
+
+    calcLinePoint() {
+
     }
 }

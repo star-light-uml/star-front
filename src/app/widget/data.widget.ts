@@ -25,9 +25,21 @@ export class DataWidget extends Widget {
     calcLinePoint() {
         const rect: RectProperty = <RectProperty>this.getProperty("Rect");
         this.pointList = [];
-        this.pointList.push(new Point(8, rect.height.value / 2));
-        this.pointList.push(new Point(rect.width.value / 2, 0));
-        this.pointList.push(new Point(rect.width.value / 2, rect.height.value - 2));
-        this.pointList.push(new Point(rect.width.value - 10, rect.height.value / 2));
+        this.pointList.push({
+            pt: new Point(8, rect.height.value / 2),
+            type: "l"
+        });
+        this.pointList.push({
+            pt: new Point(rect.width.value / 2, 0),
+            type: "t"
+        });
+        this.pointList.push({
+            pt: new Point(rect.width.value / 2, rect.height.value - 2),
+            type: "b"
+        });
+        this.pointList.push({
+            pt: new Point(rect.width.value - 10, rect.height.value / 2),
+            type: "r"
+        });
     }
 }

@@ -26,13 +26,4 @@ export class PredefinedProcessWidget extends Widget {
         this._context.stroke();
         this._context.closePath();
     }
-
-    calcLinePoint() {
-        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
-        this.pointList = [];
-        this.pointList.push(new Point(0, rect.height.value / 2 - 1));
-        this.pointList.push(new Point(rect.width.value / 2 - 1, 0));
-        this.pointList.push(new Point(rect.width.value / 2 - 1, rect.height.value - 2));
-        this.pointList.push(new Point(rect.width.value - 2, rect.height.value / 2 - 1));
-    }
 }

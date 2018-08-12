@@ -87,4 +87,14 @@ export class ElementComponent implements OnInit, AfterViewInit {
     dragStart() {
         return false;
     }
+
+    pointMouseOn(on) {
+        this.showLinePoint = on;
+    }
+
+    mouseLeave(event) {
+        if (!event.toElement.classList.contains("line-point")) {
+            this.showLinePoint = false;
+        }
+    }
 }

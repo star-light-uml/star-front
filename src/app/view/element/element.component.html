@@ -2,14 +2,17 @@
     <div  [ngStyle]="getPanelStyle()" class="element-panel" [id]="widget.id" draggable="false" (dragstart)="dragStart()">
         <canvas #canvas (mouseup)="mouseUp($event)" draggable="false"  (mousedown)="mouseDown($event)" (mousemove)="mouseMove($event)"
                 class="element-canvas" (drop)="drop($event)" (dragover)="dragOver($event)" (mouseenter)="showLinePoint = true"
-                (mouseleave)="showLinePoint= false"
+                (mouseleave)="mouseLeave($event)"
         ></canvas>
         <app-resize *ngIf="widget.key ==='background' &&  statusService.selectWidget.length > 0" [rect]="statusService.getSelectRect()"></app-resize>
 
         <app-element *ngFor="let wid of widget.children" [widget]="wid" style="display: block;width: 0;height: 0"></app-element>
         <app-select-view *ngIf="statusService.status === 'selecting' && widget.key ==='background'"></app-select-view>
+        <div *ngIf="widget.key === 'background'">
+            <app-line *ngFor="let line of statusService.lines" [line]="line"></app-line>
+        </div>
     </div>
     <div *ngIf="widget.selected || showLinePoint">
-        <app-line-point *ngFor="let point of widget.pointList" [point]="point"></app-line-point>
+        <app-line-point *ngFor="let point of widget.pointList" [point]="point.pt" [type]="point.type" (mouseOn)="pointMouseOn($event)"></app-line-point>
     </div>
 </div>

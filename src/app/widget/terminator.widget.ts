@@ -28,13 +28,4 @@ export class TerminatorWidget extends Widget {
         rect.width.min = rect.height.value;
         rect.height.max = rect.width.value;
     }
-
-    calcLinePoint() {
-        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
-        this.pointList = [];
-        this.pointList.push(new Point(0, rect.height.value / 2 - 1));
-        this.pointList.push(new Point(rect.width.value / 2 - 1, 0));
-        this.pointList.push(new Point(rect.width.value / 2 - 1, rect.height.value - 2));
-        this.pointList.push(new Point(rect.width.value - 2, rect.height.value / 2 - 1));
-    }
 }

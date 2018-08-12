@@ -63,7 +63,7 @@ export class Widget {
     private _targetContext;
 
 
-    private _pointList: Point [] = [];
+    private _pointList: any [] = [];
 
     private _statusService: StatusService;
 
@@ -105,11 +105,11 @@ export class Widget {
         this._parent = value;
     }
 
-    get pointList(): Point[] {
+    get pointList(): any[] {
         return this._pointList;
     }
 
-    set pointList(value: Point[]) {
+    set pointList(value: any[]) {
         this._pointList = value;
     }
 
@@ -372,6 +372,23 @@ export class Widget {
     }
 
     calcLinePoint() {
-
+        const rect: RectProperty = <RectProperty>this.getProperty("Rect");
+        this.pointList = [];
+        this.pointList.push({
+            pt: new Point(0, rect.height.value / 2),
+            type: "l"
+        });
+        this.pointList.push({
+            pt: new Point(rect.width.value / 2, 0),
+            type: "t"
+        });
+        this.pointList.push({
+            pt: new Point(rect.width.value / 2, rect.height.value - 2),
+            type: "b"
+        });
+        this.pointList.push({
+            pt: new Point(rect.width.value - 2, rect.height.value / 2),
+            type: "r"
+        });
     }
 }
